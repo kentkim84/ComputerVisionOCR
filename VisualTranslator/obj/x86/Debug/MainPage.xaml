@@ -1,0 +1,225 @@
+﻿<Page x:ConnectionId='1'
+    x:Class="VisualTranslator.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VisualTranslator"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    NavigationCacheMode="Enabled"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <DataTemplate x:Key="ImageGridViewTemplate"                             >
+            <StackPanel x:ConnectionId='2' 
+                Orientation="Vertical"
+                                         >
+                <Image x:ConnectionId='3' 
+                                                   
+                    Height="140" Width="140" 
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Margin="8"
+                    Stretch="UniformToFill"/>
+                <StackPanel>
+                    <TextBlock x:ConnectionId='4' 
+                                                 
+                        MaxWidth="180"
+                        TextTrimming="WordEllipsis" 
+                        TextWrapping="Wrap"
+                        Foreground="Brown"        
+                        Margin="8,0"
+                        MaxLines="3"
+                        Style="{ThemeResource BodyTextBlockStyle}"                         
+                        HorizontalAlignment="Center"/>
+                    <TextBlock x:ConnectionId='5' 
+                                            
+                        Foreground="LightGray"
+                        Style="{ThemeResource BodyTextBlockStyle}" 
+                        HorizontalAlignment="Center"/>
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+
+    </Page.Resources>
+
+    <Page.TopAppBar>
+        <!--Command-Bar Control-->
+        <CommandBar 
+            HorizontalAlignment="Right"  
+            HorizontalContentAlignment="Left"
+            VerticalContentAlignment="Center">
+            <CommandBar.Content>
+                <TextBlock 
+                    Text="Similar Image Search Application"                    
+                    Margin="15,0,0,0"
+                    Height="48"
+                    Style="{ThemeResource TitleTextBlockStyle}"/>
+            </CommandBar.Content>
+            <!--<AppBarButton x:Name="cameraButton" Icon="Camera" Label="Camera" Tapped="CameraButton_Tapped"/>
+            <AppBarButton x:Name="fileButton" Icon="OpenFile" Label="Open File" Tapped="FileButton_Tapped"/>
+            <AppBarButton x:Name="processConfirmButton" Icon="Accept" Label="Accept" Tapped="processConfirmButton_Tapped" Visibility="Collapsed"/>
+            <AppBarButton x:Name="processCancelButton" Icon="Cancel" Label="Calcel" Tapped="processCancelButton_Tapped" Visibility="Collapsed"/>-->
+        </CommandBar>
+    </Page.TopAppBar>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <!--Grid initialisation-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--View Control-->
+        <RelativePanel x:ConnectionId='6' x:Name="ViewPanel" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0">
+            <!--Camera Control-->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock 
+                    Text="Sample Image" 
+                    Style="{StaticResource TitleTextBlockStyle}"
+                    Margin="15,0,0,0"
+                    VerticalAlignment="Center"                    
+                    Grid.Row="0" Grid.ColumnSpan="4"/>
+                <!--Image Preview-->
+                <CaptureElement x:ConnectionId='12' 
+                    x:Name="PreviewControl" 
+                    Margin="15"
+                    Stretch="Uniform" 
+                    Grid.Row="1" Grid.ColumnSpan="4"/>
+                <Image x:ConnectionId='13' 
+                    x:Name="ImageControl" 
+                    Margin="15"
+                    Stretch="Uniform"
+                    Visibility="Collapsed"
+                    Grid.Row="1" Grid.ColumnSpan="4"/>
+                <!--Button Group Control-->
+                <StackPanel 
+                    HorizontalAlignment="Center" Orientation="Horizontal"                                     
+                    Grid.Row="2" Grid.ColumnSpan="4">
+                    <Button x:ConnectionId='14' 
+                        x:Name="PreviewMediaButton" 
+                        Style="{StaticResource TextBlockButtonStyle}"                    
+                                                          >
+                        <Viewbox MaxWidth="30" MaxHeight="30">
+                            <SymbolIcon Symbol="Camera"/>
+                        </Viewbox>
+                    </Button>
+                    <Button x:ConnectionId='15' 
+                        x:Name="OpenFileButton" 
+                        Style="{StaticResource TextBlockButtonStyle}"                    
+                                                      >
+                        <Viewbox MaxWidth="30" MaxHeight="30">
+                            <SymbolIcon Symbol="OpenFile"/>
+                        </Viewbox>
+                    </Button>
+                    <Button x:ConnectionId='16' 
+                        x:Name="QueryImageButton" 
+                        Style="{StaticResource TextBlockButtonStyle}"                    
+                                                        >
+                        <Viewbox MaxWidth="30" MaxHeight="30">
+                            <SymbolIcon Symbol="BrowsePhotos"/>
+                        </Viewbox>
+                    </Button>
+                    <Button x:ConnectionId='17' 
+                        x:Name="CloudButton" 
+                        Style="{StaticResource TextBlockButtonStyle}"                    
+                                                   >
+                        <Viewbox MaxWidth="30" MaxHeight="30">
+                            <SymbolIcon Symbol="Sync"/>
+                        </Viewbox>
+                    </Button>
+                </StackPanel>
+
+            </Grid>
+        </RelativePanel>
+
+        <!--Base Image Info and Search Result Info-->
+        <RelativePanel HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock 
+                    Text="Sample Image Info" 
+                    Style="{StaticResource TitleTextBlockStyle}"
+                    Margin="15,0,0,0"
+                    VerticalAlignment="Center"                    
+                    Grid.Row="0" Grid.ColumnSpan="4"/>
+
+            </Grid>
+        </RelativePanel>
+
+        <GridView x:ConnectionId='7'                     
+                Grid.Row="1" Grid.RowSpan="2" Grid.Column="1"
+                x:Name="ImageInfoGridView"
+                ItemTemplate="{StaticResource ImageGridViewTemplate}"
+                                                             
+                HorizontalAlignment="Center"
+                ScrollViewer.HorizontalScrollMode="Enabled" 
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                ScrollViewer.VerticalScrollMode="Enabled"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                ScrollViewer.ZoomMode="Enabled">
+
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+        </GridView>
+
+        <!--Loading page effect-->
+        <RelativePanel x:ConnectionId='8' 
+            x:Name="ProgressControl"            
+            Grid.Row="1" Grid.RowSpan="2" Grid.Column="1"            
+            Visibility="Collapsed">
+            <!--Progress and Message-->
+            <Grid x:ConnectionId='9'
+                x:Name="ProgressControlBackground"
+                RelativePanel.AlignVerticalCenterWithPanel="True"
+                RelativePanel.AlignHorizontalCenterWithPanel="True"                
+                Opacity="0.4"
+                Background="SlateGray"/>
+            <StackPanel 
+                RelativePanel.AlignVerticalCenterWithPanel="True"
+                RelativePanel.AlignHorizontalCenterWithPanel="True"
+                Padding="15"
+                Background="White"
+                Orientation="Horizontal">
+                <ProgressRing x:ConnectionId='10' 
+                    x:Name="ProgresRing"                    
+                    IsActive="False"
+                    Height="100" Width="100"/>
+                <TextBlock x:ConnectionId='11'                    
+                    x:Name="ProgressMessage"
+                    Style="{StaticResource BodyTextBlockStyle}"
+                    VerticalAlignment="Center"
+                    Padding="10,0,0,0"
+                    FontSize="30"
+                    Text="Analysing..."/>
+            </StackPanel>
+        </RelativePanel>
+
+    </Grid>
+</Page>
+
