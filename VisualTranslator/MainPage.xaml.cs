@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Globalization;
 using Windows.Graphics.Display;
 using Windows.Graphics.Imaging;
 using Windows.Media;
@@ -105,6 +106,13 @@ namespace VisualTranslator
         }
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
+            if (!OcrEngine.IsLanguageSupported(ocrLanguage))
+            {
+                this.NotifyUser(ocrLanguage.DisplayName + " is not supported.", NotifyType.ErrorMessage);
+
+                return;
+            }
+
             await InitialiseCameraAsync();
         }
 
@@ -119,8 +127,8 @@ namespace VisualTranslator
             await InitialiseCameraAsync();
 
             // Visibility change
-            PreviewControl.Visibility = Visibility.Visible;
-            ImageControl.Visibility = Visibility.Collapsed;
+            ImagePreview.Visibility = Visibility.Visible;
+            ImageView.Visibility = Visibility.Collapsed;
             //processConfirmButton.Visibility = Visibility.Collapsed;
             //processCancelButton.Visibility = Visibility.Collapsed;
         }
@@ -140,8 +148,8 @@ namespace VisualTranslator
                 await LoadImageAsync(file);
 
                 // Visibility change
-                PreviewControl.Visibility = Visibility.Collapsed;
-                ImageControl.Visibility = Visibility.Visible;
+                ImagePreview.Visibility = Visibility.Collapsed;
+                ImageView.Visibility = Visibility.Visible;
                 //processConfirmButton.Visibility = Visibility.Visible;
                 //processCancelButton.Visibility = Visibility.Visible;
             }
@@ -155,30 +163,32 @@ namespace VisualTranslator
             }
 
             // Before request start, show progress ring                                                
-            ProgressControlBackground.Width = ImageInfoGridView.ActualWidth;
-            ProgressControlBackground.Height = ImageInfoGridView.ActualHeight;
+            ProgressBackground.Width = OCRControlPanel.ActualWidth;
+            ProgressBackground.Height = OCRControlPanel.ActualHeight;
             ProgresRing.IsActive = true;
-            ProgressControl.Visibility = Visibility.Visible;
+            ProgressControlPanel.Visibility = Visibility.Visible;
 
-            // Start managing image source
+            // Start managing bitmap image source
             // Get image analysis as string
-            var imageAnalysis = await MakeAnalysisRequest(_byteData);
-            var searchResult = BingImageSearch(imageAnalysis);
+            //var imageAnalysis = await MakeAnalysisRequest(_byteData);
+            //var searchResult = BingImageSearch(imageAnalysis);
+
+            await ProcessOCRAsync(_softwareBitmap);
 
             // 
-            ProcessSearchResult(searchResult);
+            //ProcessSearchResult(searchResult);
 
             // Change/Update visibility                        
             ProgresRing.IsActive = false;
-            ProgressControl.Visibility = Visibility.Collapsed;
+            ProgressControlPanel.Visibility = Visibility.Collapsed;
 
 
             // Visibility change
-            PreviewControl.Visibility = Visibility.Collapsed;
-            ImageControl.Visibility = Visibility.Visible;
+            ImagePreview.Visibility = Visibility.Collapsed;
+            ImageView.Visibility = Visibility.Visible;
             //processConfirmButton.Visibility = Visibility.Visible;
             //processCancelButton.Visibility = Visibility.Visible;
-        }
+        }        
         private async void CloudButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             // upload image file to azure cloud storage and other services
@@ -187,26 +197,26 @@ namespace VisualTranslator
             // is previewing?
 
         }
-        private async void processConfirmButton_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            // Before request start, show progress ring
-            ProgressControl.Visibility = Visibility.Visible;
-            ProgresRing.IsActive = true;
+        //private async void processConfirmButton_Tapped(object sender, TappedRoutedEventArgs e)
+        //{
+        //    // Before request start, show progress ring
+        //    ProgressControlPanel.Visibility = Visibility.Visible;
+        //    ProgresRing.IsActive = true;
 
-            // Start managing image source
-            // Get image analysis as string
-            var imageAnalysis = await MakeAnalysisRequest(_byteData);
-            var searchResult = BingImageSearch(imageAnalysis);
+        //    // Start managing image source
+        //    // Get image analysis as string
+        //    var imageAnalysis = await MakeAnalysisRequest(_byteData);
+        //    var searchResult = BingImageSearch(imageAnalysis);
 
-            // 
-            ProcessSearchResult(searchResult);
+        //    // 
+        //    ProcessSearchResult(searchResult);
 
-            // Change/Update visibility
-            //processConfirmButton.Visibility = Visibility.Collapsed;
-            //processCancelButton.Visibility = Visibility.Collapsed;
-            ProgressControl.Visibility = Visibility.Collapsed; ;
-            ProgresRing.IsActive = false;
-        }
+        //    // Change/Update visibility
+        //    //processConfirmButton.Visibility = Visibility.Collapsed;
+        //    //processCancelButton.Visibility = Visibility.Collapsed;
+        //    ProgressControlPanel.Visibility = Visibility.Collapsed; ;
+        //    ProgresRing.IsActive = false;
+        //}
         private async void processCancelButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Debug.WriteLine("Process Cancelled");
@@ -297,7 +307,7 @@ namespace VisualTranslator
                 _previewProperties = _mediaCapture.VideoDeviceController.GetMediaStreamProperties(MediaStreamType.VideoPreview) as VideoEncodingProperties;
 
                 // Set the camera preview and the size
-                PreviewControl.Source = _mediaCapture;
+                ImagePreview.Source = _mediaCapture;
                 _videoFrameHeight = (int)_previewProperties.Height;
                 _videoFrameWidth = (int)_previewProperties.Width;
 
@@ -336,7 +346,7 @@ namespace VisualTranslator
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     // Cleanup the UI
-                    PreviewControl.Source = null;
+                    ImagePreview.Source = null;
                     if (_displayRequest != null)
                     {
                         // Allow the device screen to sleep now that the preview is stopped
@@ -398,7 +408,7 @@ namespace VisualTranslator
             // Copy software bitmap buffer to writeable bitmap
             softwareBitmap.CopyToBuffer(_imgSource.PixelBuffer);
             // Set UI control source
-            ImageControl.Source = _imgSource;
+            ImageView.Source = _imgSource;
         }
         private async Task<byte[]> EncodedBytes(SoftwareBitmap soft, Guid encoderId)
         {
@@ -438,40 +448,40 @@ namespace VisualTranslator
             }
         }
         // Gets the analysis of the specified image file by using the Computer Vision REST API.
-        private static async Task<string> MakeAnalysisRequest(byte[] _byteData)
-        {
-            HttpClient client = new HttpClient();
+        //private static async Task<string> MakeAnalysisRequest(byte[] _byteData)
+        //{
+        //    HttpClient client = new HttpClient();
 
-            // Request headers.
-            client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", accesskeyCV);
+        //    // Request headers.
+        //    client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", accesskeyCV);
 
-            // Request parameters. A third optional parameter is "details".
-            string requestParameters = "visualFeatures=Categories,Description,Color&language=en";
+        //    // Request parameters. A third optional parameter is "details".
+        //    string requestParameters = "visualFeatures=Categories,Description,Color&language=en";
 
-            // Assemble the URI for the REST API Call.
-            string uri = uriBaseCV + "?" + requestParameters;
+        //    // Assemble the URI for the REST API Call.
+        //    string uri = uriBaseCV + "?" + requestParameters;
 
-            HttpResponseMessage response;
+        //    HttpResponseMessage response;
 
-            using (ByteArrayContent content = new ByteArrayContent(_byteData))
-            {
-                // This example uses content type "application/octet-stream".
-                // The other content types you can use are "application/json" and "multipart/form-data".
-                content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+        //    using (ByteArrayContent content = new ByteArrayContent(_byteData))
+        //    {
+        //        // This example uses content type "application/octet-stream".
+        //        // The other content types you can use are "application/json" and "multipart/form-data".
+        //        content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
 
-                // Execute the REST API call.
-                response = await client.PostAsync(uri, content);
+        //        // Execute the REST API call.
+        //        response = await client.PostAsync(uri, content);
 
-                // Get the JSON response.
-                var contentString = await response.Content.ReadAsStringAsync();
+        //        // Get the JSON response.
+        //        var contentString = await response.Content.ReadAsStringAsync();
 
-                // Display the JSON response.
-                Debug.WriteLine("\nAnalysis Response:\n");
-                Debug.WriteLine(JsonPrettyPrintCV(contentString));
+        //        // Display the JSON response.
+        //        Debug.WriteLine("\nAnalysis Response:\n");
+        //        Debug.WriteLine(JsonPrettyPrintCV(contentString));
 
-                return ProcessJsonContent(contentString);
-            }
-        }
+        //        return ProcessJsonContent(contentString);
+        //    }
+        //}
         private static string ProcessJsonContent(string jsonContent)
         {
             if (string.IsNullOrEmpty(jsonContent))
@@ -486,76 +496,76 @@ namespace VisualTranslator
             return result;
         }
         // Performs a Bing Image search and return the results as a SearchResult.        
-        private string BingImageSearch(string searchQuery)
-        {
-            // Construct the URI of the search request
-            var uriQuery = uriBaseBing + "?q=" + Uri.EscapeDataString(searchQuery);
+        //private string BingImageSearch(string searchQuery)
+        //{
+        //    // Construct the URI of the search request
+        //    var uriQuery = uriBaseBing + "?q=" + Uri.EscapeDataString(searchQuery);
 
-            // Perform the Web request and get the response
-            WebRequest request = HttpWebRequest.Create(uriQuery);
-            request.Headers["Ocp-Apim-Subscription-Key"] = accessKeyBing;
-            HttpWebResponse response = (HttpWebResponse)request.GetResponseAsync().Result;
-            string json = new StreamReader(response.GetResponseStream()).ReadToEnd();
+        //    // Perform the Web request and get the response
+        //    WebRequest request = HttpWebRequest.Create(uriQuery);
+        //    request.Headers["Ocp-Apim-Subscription-Key"] = accessKeyBing;
+        //    HttpWebResponse response = (HttpWebResponse)request.GetResponseAsync().Result;
+        //    string json = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
-            // Create result object for return
-            var searchResult = new SearchResult()
-            {
-                jsonResult = json,
-                relevantHeaders = new Dictionary<String, String>()
-            };
+        //    // Create result object for return
+        //    var searchResult = new SearchResult()
+        //    {
+        //        jsonResult = json,
+        //        relevantHeaders = new Dictionary<String, String>()
+        //    };
 
-            // Extract Bing HTTP headers
-            foreach (String header in response.Headers)
-            {
-                if (header.StartsWith("BingAPIs-") || header.StartsWith("X-MSEdge-"))
-                    searchResult.relevantHeaders[header] = response.Headers[header];
-            }
+        //    // Extract Bing HTTP headers
+        //    foreach (String header in response.Headers)
+        //    {
+        //        if (header.StartsWith("BingAPIs-") || header.StartsWith("X-MSEdge-"))
+        //            searchResult.relevantHeaders[header] = response.Headers[header];
+        //    }
 
-            Debug.WriteLine("\nRelevant HTTP Headers:\n");
-            foreach (var header in searchResult.relevantHeaders)
-                Debug.WriteLine(header.Key + ": " + header.Value);
+        //    Debug.WriteLine("\nRelevant HTTP Headers:\n");
+        //    foreach (var header in searchResult.relevantHeaders)
+        //        Debug.WriteLine(header.Key + ": " + header.Value);
 
-            Debug.WriteLine("\nSearch Response:\n");
-            Debug.WriteLine(JsonPrettyPrintBing(searchResult.jsonResult));
+        //    Debug.WriteLine("\nSearch Response:\n");
+        //    Debug.WriteLine(JsonPrettyPrintBing(searchResult.jsonResult));
 
-            return searchResult.jsonResult;
-        }
-        private void ProcessSearchResult(string searchResult)
-        {
-            JObject jObject = JObject.Parse(searchResult);
-            IList<JToken> jArray = jObject["value"].Children().ToList();
-            List<ImageInfo> imageResourceList = new List<ImageInfo>();
+        //    return searchResult.jsonResult;
+        //}
+        //private void ProcessSearchResult(string searchResult)
+        //{
+        //    JObject jObject = JObject.Parse(searchResult);
+        //    IList<JToken> jArray = jObject["value"].Children().ToList();
+        //    List<ImageInfo> imageResourceList = new List<ImageInfo>();
 
-            // Retrieve elements from the value
-            foreach (JToken t in jArray)
-            {
-                var thumbnailJObject = (JObject)t["thumbnail"];
+        //    // Retrieve elements from the value
+        //    foreach (JToken t in jArray)
+        //    {
+        //        var thumbnailJObject = (JObject)t["thumbnail"];
 
-                var thumbnail = new Thumbnail()
-                {
-                    width = (int)thumbnailJObject["width"],
-                    height = (int)thumbnailJObject["height"]
-                };
+        //        var thumbnail = new Thumbnail()
+        //        {
+        //            width = (int)thumbnailJObject["width"],
+        //            height = (int)thumbnailJObject["height"]
+        //        };
 
-                var imageResource = new ImageInfo()
-                {
-                    Name = (string)t["name"],
-                    ThumbnailUrl = (string)t["thumbnailUrl"],
-                    ContentUrl = (string)t["contentUrl"],
-                    HostPageUrl = (string)t["hostPageUrl"],
-                    Width = (int)t["width"],
-                    Height = (int)t["height"],
-                    Thumbnail = thumbnail
-                };
+        //        var imageResource = new ImageInfo()
+        //        {
+        //            Name = (string)t["name"],
+        //            ThumbnailUrl = (string)t["thumbnailUrl"],
+        //            ContentUrl = (string)t["contentUrl"],
+        //            HostPageUrl = (string)t["hostPageUrl"],
+        //            Width = (int)t["width"],
+        //            Height = (int)t["height"],
+        //            Thumbnail = thumbnail
+        //        };
 
-                // Add item into List
-                imageResourceList.Add(imageResource);
-            }
+        //        // Add item into List
+        //        imageResourceList.Add(imageResource);
+        //    }
 
-            // Add image resource list to items source
-            this.ViewModel = new ImageInfoViewModel(imageResourceList);
-            ImageInfoGridView.ItemsSource = ViewModel.ImageInfoCVS;
-        }
+        //    // Add image resource list to items source
+        //    this.ViewModel = new ImageInfoViewModel(imageResourceList);
+        //    ImageInfoGridView.ItemsSource = ViewModel.ImageInfoCVS;
+        //}
         // Formats the given JSON string by adding line breaks and indents.
         private static string JsonPrettyPrintCV(string json)
         {
@@ -686,11 +696,127 @@ namespace VisualTranslator
 
             return sb.ToString().Trim();
         }
+        private async Task ProcessOCRAsync(SoftwareBitmap _softwareBitmap)
+        {
+            OcrEngine ocrEngine = OcrEngine.TryCreateFromLanguage(ocrLanguage);
 
+            if (ocrEngine == null)
+            {
+                this.NotifyUser(ocrLanguage.DisplayName + " is not supported.", NotifyType.ErrorMessage);
+
+                return;
+            }
+        
+            var ocrResult = await ocrEngine.RecognizeAsync(_softwareBitmap);
+
+            // Used for text overlay.
+            // Prepare scale transform for words since image is not displayed in original format.
+            var scaleTrasform = new ScaleTransform
+            {
+                CenterX = 0,
+                CenterY = 0,
+                ScaleX = ImagePreview.ActualWidth / _softwareBitmap.PixelWidth,
+                ScaleY = ImagePreview.ActualHeight / _softwareBitmap.PixelHeight
+            };
+
+            if (ocrResult.TextAngle != null)
+            {
+                // If text is detected under some angle in this sample scenario we want to
+                // overlay word boxes over original image, so we rotate overlay boxes.
+                OCRTextOverlay.RenderTransform = new RotateTransform
+                {
+                    Angle = (double)ocrResult.TextAngle,
+                    CenterX = OCRImageView.ActualWidth / 2,
+                    CenterY = OCRImageView.ActualHeight / 2
+                };
+            }
+
+            // Iterate over recognized lines of text.
+            foreach (var line in ocrResult.Lines)
+            {
+                // Iterate over words in line.
+                foreach (var word in line.Words)
+                {
+                    // Define the TextBlock.
+                    var wordTextBlock = new TextBlock()
+                    {
+                        Text = word.Text,
+                        Style = (Style)this.Resources["ExtractedWordTextStyle"]
+                    };
+
+                    WordOverlay wordBoxOverlay = new WordOverlay(word);
+
+                    // Keep references to word boxes.
+                    wordBoxes.Add(wordBoxOverlay);
+
+                    // Define position, background, etc.
+                    var overlay = new Border()
+                    {
+                        Child = wordTextBlock,
+                        Style = (Style)this.Resources["HighlightedWordBoxHorizontalLine"]
+                    };
+
+                    // Bind word boxes to UI.
+                    overlay.SetBinding(Border.MarginProperty, wordBoxOverlay.CreateWordPositionBinding());
+                    overlay.SetBinding(Border.WidthProperty, wordBoxOverlay.CreateWordWidthBinding());
+                    overlay.SetBinding(Border.HeightProperty, wordBoxOverlay.CreateWordHeightBinding());
+
+                    // Put the filled textblock in the results grid.
+                    OCRTextOverlay.Children.Add(overlay);
+                }
+            }
+
+            this.NotifyUser("Image processed using " + ocrEngine.RecognizerLanguage.DisplayName + " language.", NotifyType.StatusMessage);
+        }
+        public void NotifyUser(string strMessage, NotifyType type)
+        {
+            // If called from the UI thread, then update immediately.
+            // Otherwise, schedule a task on the UI thread to perform the update.
+            if (Dispatcher.HasThreadAccess)
+            {
+                UpdateStatus(strMessage, type);
+            }
+            else
+            {
+                var task = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => UpdateStatus(strMessage, type));
+            }
+        }
+        private void UpdateStatus(string strMessage, NotifyType type)
+        {
+            switch (type)
+            {
+                case NotifyType.StatusMessage:
+                    StatusBorder.Background = new SolidColorBrush(Windows.UI.Colors.Green);
+                    break;
+                case NotifyType.ErrorMessage:
+                    StatusBorder.Background = new SolidColorBrush(Windows.UI.Colors.Red);
+                    break;
+            }
+
+            StatusBlock.Text = strMessage;
+
+            // Collapse the StatusBlock if it has no text to conserve real estate.
+            StatusBorder.Visibility = (StatusBlock.Text != String.Empty) ? Visibility.Visible : Visibility.Collapsed;
+            if (StatusBlock.Text != String.Empty)
+            {
+                StatusBorder.Visibility = Visibility.Visible;
+                OCRControlPanel.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                StatusBorder.Visibility = Visibility.Collapsed;
+                OCRControlPanel.Visibility = Visibility.Collapsed;
+            }
+        }
         #endregion Helper functions
 
 
     }
+    public enum NotifyType
+    {
+        StatusMessage,
+        ErrorMessage
+    };
     public static class Extensions
     {
         public static void ForEach<T>(this IEnumerable<T> ie, Action<T> action)

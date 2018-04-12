@@ -8,7 +8,7 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
-    <Page.Resources>
+    <!--<Page.Resources>
         <DataTemplate x:Key="ImageGridViewTemplate" x:DataType="local:ImageInfo">
             <StackPanel 
                 Orientation="Vertical"
@@ -40,7 +40,7 @@
             </StackPanel>
         </DataTemplate>
 
-    </Page.Resources>
+    </Page.Resources>-->
 
     <Page.TopAppBar>
         <!--Command-Bar Control-->
@@ -66,8 +66,8 @@
         <!--Grid initialisation-->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -75,7 +75,7 @@
         </Grid.ColumnDefinitions>
 
         <!--View Control-->
-        <RelativePanel x:Name="ViewPanel" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0">
+        <StackPanel x:Name="ViewPanel" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0">
             <!--Camera Control-->
             <Grid>
                 <Grid.RowDefinitions>
@@ -97,17 +97,10 @@
                     VerticalAlignment="Center"                    
                     Grid.Row="0" Grid.ColumnSpan="4"/>
                 <!--Image Preview-->
-                <CaptureElement 
-                    x:Name="PreviewControl" 
-                    Margin="15"
-                    Stretch="Uniform" 
-                    Grid.Row="1" Grid.ColumnSpan="4"/>
-                <Image 
-                    x:Name="ImageControl" 
-                    Margin="15"
-                    Stretch="Uniform"
-                    Visibility="Collapsed"
-                    Grid.Row="1" Grid.ColumnSpan="4"/>
+                <Grid Grid.Row="1" Grid.ColumnSpan="4" Margin="15">
+                    <CaptureElement x:Name="ImagePreview" Stretch="Uniform"/>
+                    <Image x:Name="ImageView" Stretch="Uniform" Visibility="Collapsed"/>
+                </Grid>
                 <!--Button Group Control-->
                 <StackPanel 
                     HorizontalAlignment="Center" Orientation="Horizontal"                                     
@@ -147,13 +140,13 @@
                 </StackPanel>
 
             </Grid>
-        </RelativePanel>
+        </StackPanel>
 
         <!--Base Image Info and Search Result Info-->
-        <RelativePanel HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0">
+        <StackPanel HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
@@ -165,11 +158,10 @@
                     Margin="15,0,0,0"
                     VerticalAlignment="Center"                    
                     Grid.Row="0" Grid.ColumnSpan="4"/>
-
             </Grid>
-        </RelativePanel>
+        </StackPanel>
 
-        <GridView                     
+        <!--<GridView                     
                 Grid.Row="1" Grid.RowSpan="2" Grid.Column="1"
                 x:Name="ImageInfoGridView"
                 ItemTemplate="{StaticResource ImageGridViewTemplate}"
@@ -186,39 +178,83 @@
                     <ItemsWrapGrid Orientation="Horizontal"/>
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
-        </GridView>
+        </GridView>-->
 
+        <StackPanel
+            x:Name="OCRControlPanel"            
+            Grid.Row="1" Grid.RowSpan="2" Grid.Column="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!--OCR Image View-->
+                <Grid 
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Grid.Row="0" Grid.ColumnSpan="2">
+                    <Image x:Name="OCRImageView" Stretch="Uniform"/>
+                    <Grid x:Name="OCRTextOverlay" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                </Grid>
+                <Border x:Name="StatusBorder" Margin="0,0,0,0">
+                    <ScrollViewer VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto" MaxHeight="200">
+                        <TextBlock 
+                            x:Name="StatusBlock" FontWeight="Bold" 
+                            MaxWidth="{Binding ElementName=OCRControlPanel, Path=ActualWidth}" 
+                            Margin="10,10,10,20" TextWrapping="Wrap"
+                            Grid.Row="1" Grid.ColumnSpan="2"/>
+                    </ScrollViewer>
+                </Border>
+                <RelativePanel Grid.Row="1" Grid.Column="0">
+                    <TextBlock Text="Original Text"/>
+                    <ScrollViewer VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto" MaxHeight="200">
+                        <TextBlock x:Name="OriginalTextBlock" FontWeight="Bold" 
+                            MaxWidth="{Binding ElementName=OCRControlPanel, Path=ActualWidth}" Margin="10,10,10,20" TextWrapping="Wrap"  />
+                    </ScrollViewer>
+                </RelativePanel>
+                <RelativePanel Grid.Row="1" Grid.Column="1">
+                    <TextBlock Text="Translated Text"/>
+                    <ScrollViewer VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto" MaxHeight="200">
+                        <TextBlock x:Name="TranslatedTextBlock" FontWeight="Bold" 
+                                MaxWidth="{Binding ElementName=OCRControlPanel, Path=ActualWidth}" Margin="10,10,10,20" TextWrapping="Wrap"  />
+                    </ScrollViewer>
+                </RelativePanel>
+                
+            </Grid>
+        </StackPanel>
+        
         <!--Loading page effect-->
-        <RelativePanel 
-            x:Name="ProgressControl"            
+        <StackPanel 
+            x:Name="ProgressControlPanel"            
             Grid.Row="1" Grid.RowSpan="2" Grid.Column="1"            
             Visibility="Collapsed">
             <!--Progress and Message-->
-            <Grid
-                x:Name="ProgressControlBackground"
-                RelativePanel.AlignVerticalCenterWithPanel="True"
-                RelativePanel.AlignHorizontalCenterWithPanel="True"                
+            <StackPanel
+                x:Name="ProgressBackground"
                 Opacity="0.4"
                 Background="SlateGray"/>
-            <StackPanel 
-                RelativePanel.AlignVerticalCenterWithPanel="True"
-                RelativePanel.AlignHorizontalCenterWithPanel="True"
+            <StackPanel                 
                 Padding="15"
-                Background="White"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="GhostWhite"
                 Orientation="Horizontal">
                 <ProgressRing 
                     x:Name="ProgresRing"                    
                     IsActive="False"
-                    Height="100" Width="100"/>
+                    Height="50" Width="50"/>
                 <TextBlock                    
                     x:Name="ProgressMessage"
                     Style="{StaticResource BodyTextBlockStyle}"
                     VerticalAlignment="Center"
                     Padding="10,0,0,0"
-                    FontSize="30"
+                    FontSize="20"
                     Text="Analysing..."/>
             </StackPanel>
-        </RelativePanel>
-
+        </StackPanel>
     </Grid>
 </Page>
