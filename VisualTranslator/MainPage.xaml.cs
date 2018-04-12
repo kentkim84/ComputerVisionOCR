@@ -47,7 +47,7 @@ namespace VisualTranslator
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class MainPage : Page
-    {
+    {        
         // Microsoft cognitive service - Translator Text and Text Analysis Api
         // The subscriptionKey string key and the uri base
         private const string accesskeyTL = "34e85ab9d8624f6eafe5e44cccf1a38d";                
@@ -89,7 +89,7 @@ namespace VisualTranslator
         #region Constructor, lifecycle and navigation
 
         public MainPage()
-        {
+        {            
             this.InitializeComponent();
             
             Application.Current.Suspending += Application_Suspending;
@@ -101,7 +101,7 @@ namespace VisualTranslator
             {
                 var deferral = e.SuspendingOperation.GetDeferral();
                 await InitialiseCameraAsync();
-                deferral.Complete();
+                deferral.Complete();                
             }
         }
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -109,10 +109,8 @@ namespace VisualTranslator
             if (!OcrEngine.IsLanguageSupported(_ocrLanguage))
             {
                 NotifyUser(_ocrLanguage.DisplayName + " is not supported.", NotifyType.ErrorMessage);
-
                 return;
-            }
-
+            }            
             await InitialiseCameraAsync();
             await GetLanguagesForTranslate(); // Get codes of languages that can be translated
             await GetLanguageNames(); // Get friendly names of languages
@@ -131,7 +129,8 @@ namespace VisualTranslator
 
             // Visibility change
             ImagePreview.Visibility = Visibility.Visible;
-            ImageView.Visibility = Visibility.Collapsed;            
+            ImageView.Visibility = Visibility.Collapsed;
+            OCRImageView.Visibility = Visibility.Collapsed;
         }
         private async void OpenFileButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
@@ -150,7 +149,8 @@ namespace VisualTranslator
 
                 // Visibility change
                 ImagePreview.Visibility = Visibility.Collapsed;
-                ImageView.Visibility = Visibility.Visible;                
+                ImageView.Visibility = Visibility.Visible;
+                OCRImageView.Visibility = Visibility.Visible;
             }
         }
         private async void QueryImageButton_Tapped(object sender, TappedRoutedEventArgs e)
@@ -164,6 +164,8 @@ namespace VisualTranslator
             // Before request start, show progress ring                                                
             ProgressBackground.Width = OCRControlPanel.ActualWidth;
             ProgressBackground.Height = OCRControlPanel.ActualHeight;
+            ProgressControlGrid.Width = OCRControlPanel.ActualWidth;
+            ProgressControlGrid.Height = OCRControlPanel.ActualHeight;
             ProgresRing.IsActive = true;
             ProgressControlPanel.Visibility = Visibility.Visible;            
 
@@ -177,7 +179,8 @@ namespace VisualTranslator
 
             // Visibility change
             ImagePreview.Visibility = Visibility.Collapsed;
-            ImageView.Visibility = Visibility.Visible;            
+            ImageView.Visibility = Visibility.Visible;
+            OCRImageView.Visibility = Visibility.Visible;
         }        
 
         #endregion Event handlers
@@ -198,7 +201,7 @@ namespace VisualTranslator
         }
         // Starts the preview and adjusts it for for rotation and mirroring after making a request to keep the screen on
         private async Task StartPreviewAsync()
-        {
+        {            
             try
             {
                 _mediaCapture = new MediaCapture();
@@ -282,7 +285,8 @@ namespace VisualTranslator
                     // Cleanup the UI
                     OCRTextOverlay.Children.Clear();
                     _wordBoxes.Clear();
-                    ImagePreview.Source = null;                    
+                    ImagePreview.Source = null;
+                    OCRImageView.Source = null;
 
                     if (_displayRequest != null)
                     {
@@ -521,8 +525,7 @@ namespace VisualTranslator
                 });
             }
         }
-        // Gets the tanslation of texts using the Computer Vision REST API.                                        
-        
+        // Gets the tanslation of texts using the Computer Vision REST API.                                                
         private void UpdateWordBoxTransform()
         {
             WriteableBitmap bitmap = OCRImageView.Source as WriteableBitmap;
@@ -550,7 +553,7 @@ namespace VisualTranslator
             UpdateWordBoxTransform();
 
             // Update image rotation center.
-            var rotate = OCRImageView.RenderTransform as RotateTransform;
+            var rotate = OCRTextOverlay.RenderTransform as RotateTransform;
             if (rotate != null)
             {
                 rotate.CenterX = OCRImageView.ActualWidth / 2;
@@ -594,8 +597,7 @@ namespace VisualTranslator
             {
                 StatusBorder.Visibility = Visibility.Collapsed;                
             }
-        }
-        
+        }        
         // Detect launguage of text to be translated
         private string DetectLanguage(string textToTranslate)
         {
@@ -682,4 +684,5 @@ namespace VisualTranslator
         StatusMessage,
         ErrorMessage
     };
+    
 }

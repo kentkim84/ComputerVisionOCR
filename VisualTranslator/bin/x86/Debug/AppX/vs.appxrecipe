@@ -31,13 +31,13 @@
     <AppXManifest Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2018-04-12T20:40:54.955</Modified>
+      <Modified>2018-04-12T23:51:48.937</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Debug\VisualTranslator.exe">
       <PackagePath>entrypoint\VisualTranslator.exe</PackagePath>
-      <Modified>2018-04-12T20:40:54.565</Modified>
+      <Modified>2018-04-12T23:51:48.259</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\kentkim84\.nuget\packages\microsoft.azure.cognitiveservices.language\1.0.0-preview\lib\netstandard1.4\Microsoft.Azure.CognitiveServices.Language.dll">
       <PackagePath>Microsoft.Azure.CognitiveServices.Language.dll</PackagePath>
@@ -571,7 +571,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Debug\VisualTranslator.xr.xml">
       <PackagePath>VisualTranslator.xr.xml</PackagePath>
-      <Modified>2018-04-12T18:49:42.754</Modified>
+      <Modified>2018-04-12T23:25:00.138</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.16299.0\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
@@ -580,11 +580,11 @@
     <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2018-04-12T20:29:14.991</Modified>
+      <Modified>2018-04-12T23:51:48.740</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Debug\Core\VisualTranslator.exe">
       <PackagePath>VisualTranslator.exe</PackagePath>
-      <Modified>2018-04-12T20:40:54.950</Modified>
+      <Modified>2018-04-12T23:51:48.932</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

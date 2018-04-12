@@ -63,46 +63,51 @@
         <!--Grid initialisation-->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <!--View Control-->
-        <StackPanel x:ConnectionId='1' x:Name="ViewPanel" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0">
+        <StackPanel x:ConnectionId='1' 
+            x:Name="ViewPanel" 
+            Grid.RowSpan="2" Grid.Column="0">
             <!--Camera Control-->
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
                 <TextBlock 
                     Text="Sample Image" 
                     Style="{StaticResource TitleTextBlockStyle}"
-                    Margin="15,0,0,0"
-                    VerticalAlignment="Center"                    
-                    Grid.Row="0" Grid.ColumnSpan="4"/>
+                    HorizontalAlignment="Center" 
+                    Margin="10"    
+                    FontWeight="Bold"
+                    FontSize="25"
+                    Grid.Row="0" Grid.ColumnSpan="3"/>
                 <!--Image Preview-->
-                <Grid Grid.Row="1" Grid.ColumnSpan="4" Margin="15">
-                    <CaptureElement x:ConnectionId='18' x:Name="ImagePreview" Stretch="Uniform"/>
-                    <Image x:ConnectionId='19' x:Name="ImageView" Stretch="Uniform" Visibility="Collapsed"/>
+                <Grid
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Grid.Row="1" Grid.ColumnSpan="3" Margin="20" MaxHeight="600">
+                    <CaptureElement x:ConnectionId='19' x:Name="ImagePreview" Stretch="Uniform"/>
+                    <Image x:ConnectionId='20' x:Name="ImageView" Stretch="Uniform" Visibility="Collapsed"/>
                 </Grid>
                 <!--Button Group Control-->
                 <StackPanel 
                     HorizontalAlignment="Center" Orientation="Horizontal"                                     
-                    Grid.Row="2" Grid.ColumnSpan="4">
-                    <Button x:ConnectionId='15' 
+                    Grid.Row="2" Grid.ColumnSpan="3">
+                    <Button x:ConnectionId='16' 
                         x:Name="PreviewMediaButton" 
                         Style="{StaticResource TextBlockButtonStyle}"                    
                                                           >
@@ -110,7 +115,7 @@
                             <SymbolIcon Symbol="Camera"/>
                         </Viewbox>
                     </Button>
-                    <Button x:ConnectionId='16' 
+                    <Button x:ConnectionId='17' 
                         x:Name="OpenFileButton" 
                         Style="{StaticResource TextBlockButtonStyle}"                    
                                                       >
@@ -118,7 +123,7 @@
                             <SymbolIcon Symbol="OpenFile"/>
                         </Viewbox>
                     </Button>
-                    <Button x:ConnectionId='17' 
+                    <Button x:ConnectionId='18' 
                         x:Name="QueryImageButton" 
                         Style="{StaticResource TextBlockButtonStyle}"                    
                                                         >
@@ -127,33 +132,29 @@
                         </Viewbox>
                     </Button>
                 </StackPanel>
+                <StackPanel Grid.Row="3" Grid.ColumnSpan="3">
+                    <Border x:ConnectionId='14' x:Name="StatusBorder" Margin="5">
+                        <ScrollViewer VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto">
+                            <TextBlock x:ConnectionId='15' 
+                                x:Name="StatusBlock" FontWeight="Bold" 
+                                MaxWidth="{Binding ElementName=OCRControlPanel, Path=ActualWidth}" 
+                                Margin="10,10,10,20" TextWrapping="Wrap"/>
+                        </ScrollViewer>
+                    </Border>
+                </StackPanel>
 
             </Grid>
         </StackPanel>
 
         <!--Base Image Info and Search Result Info-->
-        <StackPanel HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+        <StackPanel Grid.Row="1" Grid.Column="0">
 
-                <TextBlock 
-                    Text="Sample Image Info" 
-                    Style="{StaticResource TitleTextBlockStyle}"
-                    Margin="15,0,0,0"
-                    VerticalAlignment="Center"                    
-                    Grid.Row="0" Grid.ColumnSpan="4"/>
-            </Grid>
         </StackPanel>
 
         <!--OCR Result and TextBlock at bottom-->
         <StackPanel x:ConnectionId='2'
             x:Name="OCRControlPanel"            
-            Grid.Row="1" Grid.RowSpan="2" Grid.Column="1">
+            Grid.Row="0" Grid.RowSpan="2" Grid.Column="1">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -165,44 +166,53 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
+                <TextBlock 
+                    Text="Text Overlay" 
+                    Style="{StaticResource TitleTextBlockStyle}"
+                    HorizontalAlignment="Center" 
+                    Margin="10" 
+                    FontWeight="Bold"
+                    FontSize="25"
+                    Grid.Row="0" Grid.ColumnSpan="2"/>
+                
                 <!--OCR Image View-->
                 <Grid                     
                     HorizontalAlignment="Center" VerticalAlignment="Center"
-                    Grid.Row="0" Grid.ColumnSpan="2">
-                    <Image x:ConnectionId='13' x:Name="OCRImageView" Stretch="Uniform"                                       />
-                    <Grid x:ConnectionId='14' x:Name="OCRTextOverlay" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    Grid.Row="1" Grid.ColumnSpan="2"
+                    Margin="20" MaxHeight="600">
+                    <Image x:ConnectionId='12' x:Name="OCRImageView" Stretch="Uniform"                                       />
+                    <Grid x:ConnectionId='13' x:Name="OCRTextOverlay" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
-                <RelativePanel Grid.Row="1" Grid.ColumnSpan="2">
-                    <Border x:ConnectionId='11' x:Name="StatusBorder" Margin="0,0,0,0">
-                        <ScrollViewer VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto" MaxHeight="200">
-                            <TextBlock x:ConnectionId='12' 
-                            x:Name="StatusBlock" FontWeight="Bold" 
-                            MaxWidth="{Binding ElementName=OCRControlPanel, Path=ActualWidth}" 
-                            Margin="10,10,10,20" TextWrapping="Wrap"/>
-                        </ScrollViewer>
-                    </Border>
-                </RelativePanel>
+                
                 <StackPanel Grid.Row="2" Grid.Column="0">
-                    <TextBlock Text="Translate From" FontWeight="SemiBold" FontSize="20"/>
-                    <ComboBox x:ConnectionId='9' 
-                        x:Name="FromLanguageComboBox"
-                        Header="Language Codes"
-                        HorizontalAlignment="Left" VerticalAlignment="Top"
-                        FontSize="14" TabIndex="2"/>
-                    <ScrollViewer VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto" MaxHeight="200">
-                        <TextBlock x:ConnectionId='10' x:Name="OriginalTextBlock" FontWeight="Bold" 
-                            MaxWidth="{Binding ElementName=OCRControlPanel, Path=ActualWidth}" Margin="10,10,10,20" TextWrapping="Wrap"  />
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                        <TextBlock 
+                            Text="Translate From :" FontWeight="SemiBold" 
+                            VerticalAlignment="Center" FontSize="18" Margin="15,0,0,0"/>
+                        <ComboBox x:ConnectionId='11' 
+                            x:Name="FromLanguageComboBox"
+                            Header="Language Codes"
+                            VerticalAlignment="Center"
+                            FontSize="14" TabIndex="2" Margin="15,5,0,5"/>
+                    </StackPanel>
+                    <ScrollViewer VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto">
+                        <TextBlock x:ConnectionId='10' x:Name="OriginalTextBlock" FontWeight="SemiLight" 
+                        MaxWidth="{Binding ElementName=OCRControlPanel, Path=ActualWidth}" Margin="10,10,10,20" TextWrapping="Wrap"  />
                     </ScrollViewer>
                 </StackPanel>
                 <StackPanel Grid.Row="2" Grid.Column="1">
-                    <TextBlock Text="Translate To" FontWeight="SemiBold" FontSize="20"/>
-                    <ComboBox x:ConnectionId='7' 
-                        x:Name="ToLanguageComboBox"
-                        Header="Language Codes"
-                        HorizontalAlignment="Left" VerticalAlignment="Top"
-                        FontSize="14" TabIndex="2"/>
-                    <ScrollViewer VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto" MaxHeight="200">
-                        <TextBlock x:ConnectionId='8' x:Name="TranslatedTextBlock" FontWeight="Bold" 
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                        <TextBlock 
+                            Text="Translate To :" FontWeight="SemiBold" 
+                            VerticalAlignment="Center" FontSize="18" Margin="15,0,0,0"/>
+                        <ComboBox x:ConnectionId='9' 
+                            x:Name="ToLanguageComboBox"
+                            Header="Language Codes"
+                            VerticalAlignment="Center"
+                            FontSize="14" TabIndex="2" Margin="15,5,0,5"/>
+                    </StackPanel>
+                    <ScrollViewer VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto">
+                        <TextBlock x:ConnectionId='8' x:Name="TranslatedTextBlock" FontWeight="SemiLight" 
                                 MaxWidth="{Binding ElementName=OCRControlPanel, Path=ActualWidth}" Margin="10,10,10,20" TextWrapping="Wrap"  />
                     </ScrollViewer>
                 </StackPanel>
@@ -213,31 +223,36 @@
         <!--Loading page effect-->
         <StackPanel x:ConnectionId='3' 
             x:Name="ProgressControlPanel"            
-            Grid.Row="1" Grid.RowSpan="2" Grid.Column="1"            
+            Grid.RowSpan="2" Grid.Column="1"            
             Visibility="Collapsed">
             <!--Progress and Message-->
             <StackPanel x:ConnectionId='4'
                 x:Name="ProgressBackground"
                 Opacity="0.4"
                 Background="SlateGray"/>
-            <StackPanel                 
-                Padding="15"
+            <Grid x:ConnectionId='5' 
+                x:Name="ProgressControlGrid"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Background="GhostWhite"
-                Orientation="Horizontal">
-                <ProgressRing x:ConnectionId='5' 
-                    x:Name="ProgresRing"                    
-                    IsActive="False"
-                    Height="50" Width="50"/>
-                <TextBlock x:ConnectionId='6'                    
-                    x:Name="ProgressMessage"
-                    Style="{StaticResource BodyTextBlockStyle}"
+                VerticalAlignment="Center">
+                <StackPanel                 
+                    Padding="15"
+                    HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Padding="10,0,0,0"
-                    FontSize="20"
-                    Text="Analysing..."/>
-            </StackPanel>
+                    Background="White"
+                    Orientation="Horizontal">
+                    <ProgressRing x:ConnectionId='6' 
+                        x:Name="ProgresRing"                    
+                        IsActive="False"
+                        Height="100" Width="100"/>
+                    <TextBlock x:ConnectionId='7'                    
+                        x:Name="ProgressMessage"
+                        Style="{StaticResource BodyTextBlockStyle}"
+                        VerticalAlignment="Center"
+                        Padding="10,0,0,0"
+                        FontSize="20"
+                        Text="Analysing..."/>
+                </StackPanel>
+            </Grid>
         </StackPanel>
     </Grid>
 </Page>
