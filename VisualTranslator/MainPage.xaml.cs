@@ -46,10 +46,12 @@ namespace VisualTranslator
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        // Microsoft cognitive service - Translator Text Api
+        // Microsoft cognitive service - Translator Text and Text Analysis Api
         // The subscriptionKey string key and the uri base
         private const string accesskeyTL = "34e85ab9d8624f6eafe5e44cccf1a38d";                
         private const string uriBaseTranslation = "https://api.microsofttranslator.com/V2/Http.svc/";
+        private const string accesskeyTA = "71c90e3bc74b4548878e5d4d2f5c0b1e";
+        private const string uriBaseAnalysis = "https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/";
 
         // MediaCapture and its state variables
         private MediaCapture _mediaCapture;
@@ -177,7 +179,7 @@ namespace VisualTranslator
             //var searchResult = BingImageSearch(imageAnalysis);
 
             var ocrResult = await ProcessOCRAsync(_softwareBitmap);
-            var translationResult = await ProcessTranslationAsync(ocrResult);
+            await ProcessTranslationAsync(ocrResult);
             // 
             //ProcessSearchResult(searchResult);
 
@@ -609,10 +611,40 @@ namespace VisualTranslator
                 StatusBorder.Visibility = Visibility.Collapsed;                
             }
         }
-        private async Task<string> ProcessTranslationAsync(string ocrResult)
+        private async Task ProcessTranslationAsync(string ocrResult)
         {
-            var fromLanguageCode = "en-us";
-            var toLanguageCode = "fr-fr";
+            string textToTranslate = ocrResult.Trim();
+            // Get from language from the combobox
+            var fromLanguage = FromLanguageComboBox.SelectedValue.ToString();
+            
+            string fromLanguageCode;
+
+            // auto-detect source language if requested
+            //if (fromLanguage == "Detect")
+            //{
+            //    fromLanguageCode = DetectLanguage(textToTranslate);
+            //    if (!languageCodes.Contains(fromLanguageCode))
+            //    {
+            //        MessageBox.Show("The source language could not be detected automatically " +
+            //            "or is not supported for translation.", "Language detection failed",
+            //            MessageBoxButton.OK, MessageBoxImage.Error);
+            //        return;
+            //    }
+            //}
+            //else
+                fromLanguageCode = _languageCodesAndTitles[fromLanguage];
+
+            // Get to language from the combobox
+            var toLanguage = ToLanguageComboBox.SelectedValue.ToString();
+            var toLanguageCode = _languageCodesAndTitles[toLanguage];
+
+            // handle null operations: no text or same source/target languages
+            if (textToTranslate == "" || fromLanguageCode == toLanguageCode)
+            {
+                TranslatedTextBlock.Text = textToTranslate;
+                return;
+            }
+
             string uri = string.Format(uriBaseTranslation + "Translate?text=" +
                 System.Net.WebUtility.UrlEncode(ocrResult) + "&from={0}&to={1}", fromLanguageCode, toLanguageCode);
 
@@ -628,10 +660,43 @@ namespace VisualTranslator
             xmlResponse.LoadXml(translatedStream.ReadToEnd());
 
             // Update the translation field
-            TranslatedTextBlock.Text = xmlResponse.InnerText;
-
-            return xmlResponse.InnerText;
+            TranslatedTextBlock.Text = xmlResponse.InnerText;            
         }
+        // DETECT LANGUAGE OF TEXT TO BE TRANSLATED
+        //private string DetectLanguage(string text)
+        //{
+        //    string uri = uriBaseAnalysis + "languages?numberOfLanguagesToDetect=1";
+
+        //    // create request to Text Analytics API
+        //    HttpWebRequest detectLanguageWebRequest = (HttpWebRequest)WebRequest.Create(uri);
+        //    detectLanguageWebRequest.Headers["Ocp-Apim-Subscription-Key"] = accesskeyTA;
+        //    detectLanguageWebRequest.Method = "POST";
+
+        //    // create and send body of request
+        //    var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+        //    string jsonText = serializer.Serialize(text);
+
+        //    string body = "{ \"documents\": [ { \"id\": \"0\", \"text\": " + jsonText + "} ] }";
+        //    byte[] data = Encoding.UTF8.GetBytes(body);
+        //    detectLanguageWebRequest.ContentLength = data.Length;
+
+        //    using (var requestStream = detectLanguageWebRequest.GetRequestStream())
+        //        requestStream.Write(data, 0, data.Length);
+
+        //    HttpWebResponse response = (HttpWebResponse)detectLanguageWebRequest.GetResponse();
+
+        //    // read and and parse JSON response
+        //    var responseStream = response.GetResponseStream();
+        //    var jsonString = new StreamReader(responseStream, Encoding.GetEncoding("utf-8")).ReadToEnd();
+        //    dynamic jsonResponse = serializer.DeserializeObject(jsonString);
+
+        //    // fish out the detected language code
+        //    var languageInfo = jsonResponse["documents"][0]["detectedLanguages"][0];
+        //    if (languageInfo["score"] > (decimal)0.5)
+        //        return languageInfo["iso6391Name"];
+        //    else
+        //        return "";
+        //}
         // GET translatable langue codes
         private async Task GetLanguagesForTranslate()
         {
