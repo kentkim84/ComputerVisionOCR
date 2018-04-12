@@ -166,7 +166,7 @@ namespace VisualTranslator
             ProgressBackground.Width = OCRControlPanel.ActualWidth;
             ProgressBackground.Height = OCRControlPanel.ActualHeight;
             ProgresRing.IsActive = true;
-            ProgressControlPanel.Visibility = Visibility.Visible;
+            ProgressControlPanel.Visibility = Visibility.Visible;            
 
             // Start managing bitmap image source
             // Get image analysis as string
@@ -308,6 +308,7 @@ namespace VisualTranslator
 
                 // Set the camera preview and the size
                 ImagePreview.Source = _mediaCapture;
+
                 _videoFrameHeight = (int)_previewProperties.Height;
                 _videoFrameWidth = (int)_previewProperties.Width;
 
@@ -346,7 +347,8 @@ namespace VisualTranslator
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     // Cleanup the UI
-                    ImagePreview.Source = null;
+                    ImagePreview.Source = null;                    
+
                     if (_displayRequest != null)
                     {
                         // Allow the device screen to sleep now that the preview is stopped
@@ -407,8 +409,10 @@ namespace VisualTranslator
             _imgSource = new WriteableBitmap(softwareBitmap.PixelWidth, softwareBitmap.PixelHeight);
             // Copy software bitmap buffer to writeable bitmap
             softwareBitmap.CopyToBuffer(_imgSource.PixelBuffer);
-            // Set UI control source
+            // Set UI source source
             ImageView.Source = _imgSource;
+            // Set OCR view source
+            OCRImageView.Source = _imgSource;
         }
         private async Task<byte[]> EncodedBytes(SoftwareBitmap soft, Guid encoderId)
         {
@@ -696,18 +700,18 @@ namespace VisualTranslator
 
             return sb.ToString().Trim();
         }
-        private async Task ProcessOCRAsync(SoftwareBitmap _softwareBitmap)
+        private async Task ProcessOCRAsync(SoftwareBitmap softwareBitmap)
         {
             OcrEngine ocrEngine = OcrEngine.TryCreateFromLanguage(ocrLanguage);
 
             if (ocrEngine == null)
             {
-                this.NotifyUser(ocrLanguage.DisplayName + " is not supported.", NotifyType.ErrorMessage);
+                NotifyUser(ocrLanguage.DisplayName + " is not supported.", NotifyType.ErrorMessage);
 
                 return;
             }
         
-            var ocrResult = await ocrEngine.RecognizeAsync(_softwareBitmap);
+            var ocrResult = await ocrEngine.RecognizeAsync(softwareBitmap);
 
             // Used for text overlay.
             // Prepare scale transform for words since image is not displayed in original format.
@@ -715,8 +719,8 @@ namespace VisualTranslator
             {
                 CenterX = 0,
                 CenterY = 0,
-                ScaleX = ImagePreview.ActualWidth / _softwareBitmap.PixelWidth,
-                ScaleY = ImagePreview.ActualHeight / _softwareBitmap.PixelHeight
+                ScaleX = ImagePreview.ActualWidth / softwareBitmap.PixelWidth,
+                ScaleY = ImagePreview.ActualHeight / softwareBitmap.PixelHeight
             };
 
             if (ocrResult.TextAngle != null)
@@ -766,7 +770,7 @@ namespace VisualTranslator
                 }
             }
 
-            this.NotifyUser("Image processed using " + ocrEngine.RecognizerLanguage.DisplayName + " language.", NotifyType.StatusMessage);
+            NotifyUser("Image processed using " + ocrEngine.RecognizerLanguage.DisplayName + " language.", NotifyType.StatusMessage);
         }
         public void NotifyUser(string strMessage, NotifyType type)
         {
@@ -799,13 +803,11 @@ namespace VisualTranslator
             StatusBorder.Visibility = (StatusBlock.Text != String.Empty) ? Visibility.Visible : Visibility.Collapsed;
             if (StatusBlock.Text != String.Empty)
             {
-                StatusBorder.Visibility = Visibility.Visible;
-                OCRControlPanel.Visibility = Visibility.Visible;
+                StatusBorder.Visibility = Visibility.Visible;                
             }
             else
             {
-                StatusBorder.Visibility = Visibility.Collapsed;
-                OCRControlPanel.Visibility = Visibility.Collapsed;
+                StatusBorder.Visibility = Visibility.Collapsed;                
             }
         }
         #endregion Helper functions

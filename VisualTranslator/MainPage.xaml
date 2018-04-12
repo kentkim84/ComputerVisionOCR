@@ -8,40 +8,6 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
-    <!--<Page.Resources>
-        <DataTemplate x:Key="ImageGridViewTemplate" x:DataType="local:ImageInfo">
-            <StackPanel 
-                Orientation="Vertical"
-                Tapped="ImageItem_Tapped">
-                <Image 
-                    Source="{x:Bind ThumbnailUrl}" 
-                    Height="140" Width="140" 
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    Margin="8"
-                    Stretch="UniformToFill"/>
-                <StackPanel>
-                    <TextBlock 
-                        Text="{x:Bind Name}"     
-                        MaxWidth="180"
-                        TextTrimming="WordEllipsis" 
-                        TextWrapping="Wrap"
-                        Foreground="Brown"        
-                        Margin="8,0"
-                        MaxLines="3"
-                        Style="{ThemeResource BodyTextBlockStyle}"                         
-                        HorizontalAlignment="Center"/>
-                    <TextBlock 
-                        Text="{x:Bind Size}"
-                        Foreground="LightGray"
-                        Style="{ThemeResource BodyTextBlockStyle}" 
-                        HorizontalAlignment="Center"/>
-                </StackPanel>
-            </StackPanel>
-        </DataTemplate>
-
-    </Page.Resources>-->
-
     <Page.TopAppBar>
         <!--Command-Bar Control-->
         <CommandBar 
@@ -161,25 +127,7 @@
             </Grid>
         </StackPanel>
 
-        <!--<GridView                     
-                Grid.Row="1" Grid.RowSpan="2" Grid.Column="1"
-                x:Name="ImageInfoGridView"
-                ItemTemplate="{StaticResource ImageGridViewTemplate}"
-                ItemsSource="{x:Bind ViewModel.ImageInfoCVS}"
-                HorizontalAlignment="Center"
-                ScrollViewer.HorizontalScrollMode="Enabled" 
-                ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                ScrollViewer.VerticalScrollMode="Enabled"
-                ScrollViewer.VerticalScrollBarVisibility="Auto"
-                ScrollViewer.ZoomMode="Enabled">
-
-            <GridView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <ItemsWrapGrid Orientation="Horizontal"/>
-                </ItemsPanelTemplate>
-            </GridView.ItemsPanel>
-        </GridView>-->
-
+        <!--OCR Result and TextBlock at bottom-->
         <StackPanel
             x:Name="OCRControlPanel"            
             Grid.Row="1" Grid.RowSpan="2" Grid.Column="1">
@@ -194,7 +142,7 @@
                 </Grid.ColumnDefinitions>
 
                 <!--OCR Image View-->
-                <Grid 
+                <Grid                     
                     HorizontalAlignment="Center" VerticalAlignment="Center"
                     Grid.Row="0" Grid.ColumnSpan="2">
                     <Image x:Name="OCRImageView" Stretch="Uniform"/>
