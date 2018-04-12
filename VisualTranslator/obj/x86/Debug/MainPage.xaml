@@ -46,7 +46,7 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -135,6 +135,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -145,29 +146,30 @@
                 <Grid                     
                     HorizontalAlignment="Center" VerticalAlignment="Center"
                     Grid.Row="0" Grid.ColumnSpan="2">
-                    <Image x:ConnectionId='11' x:Name="OCRImageView" Stretch="Uniform"/>
+                    <Image x:ConnectionId='11' x:Name="OCRImageView" Stretch="Uniform"                                       />
                     <Grid x:ConnectionId='12' x:Name="OCRTextOverlay" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 </Grid>
-                <Border x:ConnectionId='7' x:Name="StatusBorder" Margin="0,0,0,0">
-                    <ScrollViewer VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto" MaxHeight="200">
-                        <TextBlock x:ConnectionId='10' 
+                <RelativePanel Grid.Row="1" Grid.ColumnSpan="2">
+                    <Border x:ConnectionId='9' x:Name="StatusBorder" Margin="0,0,0,0">
+                        <ScrollViewer VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto" MaxHeight="200">
+                            <TextBlock x:ConnectionId='10' 
                             x:Name="StatusBlock" FontWeight="Bold" 
                             MaxWidth="{Binding ElementName=OCRControlPanel, Path=ActualWidth}" 
-                            Margin="10,10,10,20" TextWrapping="Wrap"
-                            Grid.Row="1" Grid.ColumnSpan="2"/>
-                    </ScrollViewer>
-                </Border>
-                <RelativePanel Grid.Row="1" Grid.Column="0">
+                            Margin="10,10,10,20" TextWrapping="Wrap"/>
+                        </ScrollViewer>
+                    </Border>
+                </RelativePanel>
+                <RelativePanel Grid.Row="2" Grid.Column="0">
                     <TextBlock Text="Original Text"/>
                     <ScrollViewer VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto" MaxHeight="200">
-                        <TextBlock x:ConnectionId='9' x:Name="OriginalTextBlock" FontWeight="Bold" 
+                        <TextBlock x:ConnectionId='8' x:Name="OriginalTextBlock" FontWeight="Bold" 
                             MaxWidth="{Binding ElementName=OCRControlPanel, Path=ActualWidth}" Margin="10,10,10,20" TextWrapping="Wrap"  />
                     </ScrollViewer>
                 </RelativePanel>
-                <RelativePanel Grid.Row="1" Grid.Column="1">
+                <RelativePanel Grid.Row="2" Grid.Column="1">
                     <TextBlock Text="Translated Text"/>
                     <ScrollViewer VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto" MaxHeight="200">
-                        <TextBlock x:ConnectionId='8' x:Name="TranslatedTextBlock" FontWeight="Bold" 
+                        <TextBlock x:ConnectionId='7' x:Name="TranslatedTextBlock" FontWeight="Bold" 
                                 MaxWidth="{Binding ElementName=OCRControlPanel, Path=ActualWidth}" Margin="10,10,10,20" TextWrapping="Wrap"  />
                     </ScrollViewer>
                 </RelativePanel>

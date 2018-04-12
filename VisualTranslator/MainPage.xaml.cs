@@ -322,6 +322,7 @@ namespace VisualTranslator
                 await _mediaCapture.StartPreviewAsync();
 
                 _isPreviewing = true;
+                NotifyUser("Camera started.", NotifyType.StatusMessage);
             }
             catch (UnauthorizedAccessException)
             {
@@ -347,6 +348,8 @@ namespace VisualTranslator
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     // Cleanup the UI
+                    OCRTextOverlay.Children.Clear();
+                    wordBoxes.Clear();
                     ImagePreview.Source = null;                    
 
                     if (_displayRequest != null)
@@ -771,6 +774,42 @@ namespace VisualTranslator
             }
 
             NotifyUser("Image processed using " + ocrEngine.RecognizerLanguage.DisplayName + " language.", NotifyType.StatusMessage);
+
+            UpdateWordBoxTransform();
+        }
+        private void UpdateWordBoxTransform()
+        {
+            WriteableBitmap bitmap = OCRImageView.Source as WriteableBitmap;
+
+            if (bitmap != null)
+            {
+                // Used for text overlay.
+                // Prepare scale transform for words since image is not displayed in original size.
+                ScaleTransform scaleTrasform = new ScaleTransform
+                {
+                    CenterX = 0,
+                    CenterY = 0,
+                    ScaleX = OCRImageView.ActualWidth / bitmap.PixelWidth,
+                    ScaleY = OCRImageView.ActualHeight / bitmap.PixelHeight
+                };
+
+                foreach (var item in wordBoxes)
+                {
+                    item.Transform(scaleTrasform);
+                }
+            }
+        }
+        private void PreviewImage_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            UpdateWordBoxTransform();
+
+            // Update image rotation center.
+            var rotate = OCRImageView.RenderTransform as RotateTransform;
+            if (rotate != null)
+            {
+                rotate.CenterX = OCRImageView.ActualWidth / 2;
+                rotate.CenterY = OCRImageView.ActualHeight / 2;
+            }
         }
         public void NotifyUser(string strMessage, NotifyType type)
         {
