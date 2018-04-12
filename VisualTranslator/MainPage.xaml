@@ -8,6 +8,37 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <Style x:Key="HighlightedWordBox" TargetType="Border">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+        <Style x:Key="ExtractedWordTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="TextAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="HighlightedWordBoxHorizontalLine" TargetType="Border" BasedOn="{StaticResource HighlightedWordBox}">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="Blue" Opacity="0.5" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="HighlightedWordBoxVerticalLine" TargetType="Border" BasedOn="{StaticResource HighlightedWordBox}">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="Red" Opacity="0.5" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="White"/>
+        </Style>
+    </Page.Resources>
+    
     <Page.TopAppBar>
         <!--Command-Bar Control-->
         <CommandBar 

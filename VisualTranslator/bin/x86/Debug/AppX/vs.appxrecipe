@@ -31,13 +31,13 @@
     <AppXManifest Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2018-04-12T12:12:14.436</Modified>
+      <Modified>2018-04-12T12:32:18.030</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Debug\VisualTranslator.exe">
       <PackagePath>entrypoint\VisualTranslator.exe</PackagePath>
-      <Modified>2018-04-12T12:12:13.587</Modified>
+      <Modified>2018-04-12T12:32:17.579</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\kentkim84\.nuget\packages\microsoft.csharp\4.3.0\lib\netcore50\Microsoft.CSharp.dll">
       <PackagePath>Microsoft.CSharp.dll</PackagePath>
@@ -559,7 +559,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Debug\VisualTranslator.xr.xml">
       <PackagePath>VisualTranslator.xr.xml</PackagePath>
-      <Modified>2018-04-12T12:12:13.232</Modified>
+      <Modified>2018-04-12T12:18:19.074</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.16299.0\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
@@ -568,11 +568,11 @@
     <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2018-04-12T12:12:14.193</Modified>
+      <Modified>2018-04-12T12:18:20.122</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Debug\Core\VisualTranslator.exe">
       <PackagePath>VisualTranslator.exe</PackagePath>
-      <Modified>2018-04-12T12:12:14.431</Modified>
+      <Modified>2018-04-12T12:32:18.025</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

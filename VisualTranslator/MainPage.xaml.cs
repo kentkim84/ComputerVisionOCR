@@ -772,7 +772,8 @@ namespace VisualTranslator
                     OCRTextOverlay.Children.Add(overlay);
                 }
             }
-
+            // Get original text recognised
+            OriginalTextBlock.Text = ocrResult.Text;
             NotifyUser("Image processed using " + ocrEngine.RecognizerLanguage.DisplayName + " language.", NotifyType.StatusMessage);
 
             UpdateWordBoxTransform();
@@ -850,7 +851,6 @@ namespace VisualTranslator
             }
         }
         #endregion Helper functions
-
 
     }
     public enum NotifyType
