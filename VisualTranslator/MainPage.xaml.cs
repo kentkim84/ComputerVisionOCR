@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Microsoft.Azure.CognitiveServices.Language.TextAnalytics;
+using Microsoft.Azure.CognitiveServices.Language.TextAnalytics.Models;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -76,9 +78,7 @@ namespace VisualTranslator
 
         // Image byte array
         private byte[] _byteData;
-        
-        private OcrEngine _engine = OcrEngine.TryCreateFromLanguage(new Windows.Globalization.Language("en-US"));
-        
+                        
         // array of language codes
         private string[] _languageCodes;
 
@@ -86,16 +86,14 @@ namespace VisualTranslator
         private SortedDictionary<string, string> _languageCodesAndTitles =
             new SortedDictionary<string, string>(Comparer<string>.Create((a, b) => string.Compare(a, b, true)));
 
-
         #region Constructor, lifecycle and navigation
 
         public MainPage()
         {
             this.InitializeComponent();
-            this.ViewModel = new ImageInfoViewModel();
+            
             Application.Current.Suspending += Application_Suspending;
-        }
-        public ImageInfoViewModel ViewModel { get; set; }
+        }        
         private async void Application_Suspending(object sender, SuspendingEventArgs e)
         {
             // Handle global application events only if this page is active
@@ -110,7 +108,7 @@ namespace VisualTranslator
         {
             if (!OcrEngine.IsLanguageSupported(_ocrLanguage))
             {
-                this.NotifyUser(_ocrLanguage.DisplayName + " is not supported.", NotifyType.ErrorMessage);
+                NotifyUser(_ocrLanguage.DisplayName + " is not supported.", NotifyType.ErrorMessage);
 
                 return;
             }
@@ -133,9 +131,7 @@ namespace VisualTranslator
 
             // Visibility change
             ImagePreview.Visibility = Visibility.Visible;
-            ImageView.Visibility = Visibility.Collapsed;
-            //processConfirmButton.Visibility = Visibility.Collapsed;
-            //processCancelButton.Visibility = Visibility.Collapsed;
+            ImageView.Visibility = Visibility.Collapsed;            
         }
         private async void OpenFileButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
@@ -154,9 +150,7 @@ namespace VisualTranslator
 
                 // Visibility change
                 ImagePreview.Visibility = Visibility.Collapsed;
-                ImageView.Visibility = Visibility.Visible;
-                //processConfirmButton.Visibility = Visibility.Visible;
-                //processCancelButton.Visibility = Visibility.Visible;
+                ImageView.Visibility = Visibility.Visible;                
             }
         }
         private async void QueryImageButton_Tapped(object sender, TappedRoutedEventArgs e)
@@ -173,85 +167,18 @@ namespace VisualTranslator
             ProgresRing.IsActive = true;
             ProgressControlPanel.Visibility = Visibility.Visible;            
 
-            // Start managing bitmap image source
-            // Get image analysis as string
-            //var imageAnalysis = await MakeAnalysisRequest(_byteData);
-            //var searchResult = BingImageSearch(imageAnalysis);
-
+            // Start managing bitmap image source         
             var ocrResult = await ProcessOCRAsync(_softwareBitmap);
             await ProcessTranslationAsync(ocrResult);
-            // 
-            //ProcessSearchResult(searchResult);
-
+            
             // Change/Update visibility                        
             ProgresRing.IsActive = false;
             ProgressControlPanel.Visibility = Visibility.Collapsed;
 
-
             // Visibility change
             ImagePreview.Visibility = Visibility.Collapsed;
-            ImageView.Visibility = Visibility.Visible;
-            //processConfirmButton.Visibility = Visibility.Visible;
-            //processCancelButton.Visibility = Visibility.Visible;
+            ImageView.Visibility = Visibility.Visible;            
         }        
-        private async void CloudButton_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            // upload image file to azure cloud storage and other services
-            // *azure storage
-            // *customm computer vision service
-            // is previewing?
-
-        }
-        //private async void processConfirmButton_Tapped(object sender, TappedRoutedEventArgs e)
-        //{
-        //    // Before request start, show progress ring
-        //    ProgressControlPanel.Visibility = Visibility.Visible;
-        //    ProgresRing.IsActive = true;
-
-        //    // Start managing image source
-        //    // Get image analysis as string
-        //    var imageAnalysis = await MakeAnalysisRequest(_byteData);
-        //    var searchResult = BingImageSearch(imageAnalysis);
-
-        //    // 
-        //    ProcessSearchResult(searchResult);
-
-        //    // Change/Update visibility
-        //    //processConfirmButton.Visibility = Visibility.Collapsed;
-        //    //processCancelButton.Visibility = Visibility.Collapsed;
-        //    ProgressControlPanel.Visibility = Visibility.Collapsed; ;
-        //    ProgresRing.IsActive = false;
-        //}
-        private async void processCancelButton_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            Debug.WriteLine("Process Cancelled");
-            await CleanupPreviewAndBitmapAsync();
-        }
-        private void ImageItem_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            // Move to the detail page
-            //this.Frame.Navigate(typeof(Page1));
-            Debug.WriteLine("ImageInfoGridView tapped");
-        }
-        private void Rect_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
-        {
-            //rectangle.Opacity = 0.5;
-        }
-        private void Rect_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
-        {
-            //, PointerRoutedEventArgs e2
-            //_pt = e2.GetCurrentPoint(this);
-            // translate
-            //rectTransform.TranslateX += e.Delta.Translation.X;
-            //rectTransform.TranslateY += e.Delta.Translation.Y;
-            // scale
-            //rectTransform.ScaleX += 0.01;
-            //rectTransform.ScaleY += 0.01;
-        }
-        private void Rect_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
-        {
-            //rectangle.Opacity = 0.3;
-        }
 
         #endregion Event handlers
 
@@ -407,61 +334,8 @@ namespace VisualTranslator
 
 
 
-        #region Helper functions
+        #region OCR and Translation functions
 
-        // Set the image view source
-        private async Task SetImageViewSource(SoftwareBitmap softwareBitmap)
-        {
-            // Get byte array from software bitmap
-            _byteData = await EncodedBytes(softwareBitmap, BitmapEncoder.JpegEncoderId);
-            // Create writeable bitmap from software bitmap
-            var imgSource = new WriteableBitmap(softwareBitmap.PixelWidth, softwareBitmap.PixelHeight);
-            // Copy software bitmap buffer to writeable bitmap
-            softwareBitmap.CopyToBuffer(imgSource.PixelBuffer);
-            // Set UI source source
-            ImageView.Source = imgSource;
-            // Set OCR view source
-            OCRImageView.Source = imgSource;
-        }
-        // Convert bitmap to byte array
-        private async Task<byte[]> EncodedBytes(SoftwareBitmap soft, Guid encoderId)
-        {
-            byte[] array = null;
-
-            // First: Use an encoder to copy from SoftwareBitmap to an in-mem stream (FlushAsync)
-            // Next:  Use ReadAsync on the in-mem stream to get byte[] array
-
-            using (var ms = new InMemoryRandomAccessStream())
-            {
-                BitmapEncoder encoder = await BitmapEncoder.CreateAsync(encoderId, ms);
-                encoder.SetSoftwareBitmap(soft);
-
-                try
-                {
-                    await encoder.FlushAsync();
-                }
-                catch (Exception ex) { return new byte[0]; }
-
-                array = new byte[ms.Size];
-                await ms.ReadAsync(array.AsBuffer(), (uint)ms.Size, InputStreamOptions.None);
-            }
-            return array;
-        }
-        private async void _mediaCapture_CaptureDeviceExclusiveControlStatusChanged(MediaCapture sender, MediaCaptureDeviceExclusiveControlStatusChangedEventArgs args)
-        {
-            if (args.Status == MediaCaptureDeviceExclusiveControlStatus.SharedReadOnlyAvailable)
-            {
-                Debug.WriteLine("The camera preview can't be displayed because another app has exclusive access");
-            }
-            else if (args.Status == MediaCaptureDeviceExclusiveControlStatus.ExclusiveControlAvailable && !_isPreviewing)
-            {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                {
-                    await StartPreviewAsync();
-                });
-            }
-        }
-        // Gets the tanslation of texts using the Computer Vision REST API.                                        
         private async Task<string> ProcessOCRAsync(SoftwareBitmap softwareBitmap)
         {
             OcrEngine ocrEngine = OcrEngine.TryCreateFromLanguage(_ocrLanguage);
@@ -472,7 +346,7 @@ namespace VisualTranslator
 
                 return string.Empty;
             }
-        
+
             var ocrResult = await ocrEngine.RecognizeAsync(softwareBitmap);
 
             // Used for text overlay.
@@ -539,6 +413,116 @@ namespace VisualTranslator
 
             return ocrResult.Text;
         }
+        private async Task ProcessTranslationAsync(string ocrResult)
+        {
+            string textToTranslate = ocrResult.Trim();
+            // Get from language from the combobox
+            var fromLanguage = FromLanguageComboBox.SelectedValue.ToString();
+
+            string fromLanguageCode;
+
+            // auto-detect source language if requested
+            if (fromLanguage == "Detect")
+            {
+                fromLanguageCode = DetectLanguage(textToTranslate);
+                if (!_languageCodes.Contains(fromLanguageCode))
+                {
+                    NotifyUser("The source language could not be detected automatically or is not supported for translation.", NotifyType.ErrorMessage);
+                    return;
+                }
+            }
+            else
+                fromLanguageCode = _languageCodesAndTitles[fromLanguage];
+
+            // Get to language from the combobox
+            var toLanguage = ToLanguageComboBox.SelectedValue.ToString();
+            var toLanguageCode = _languageCodesAndTitles[toLanguage];
+
+            // handle null operations: no text or same source/target languages
+            if (textToTranslate == "" || fromLanguageCode == toLanguageCode)
+            {
+                TranslatedTextBlock.Text = textToTranslate;
+                return;
+            }
+
+            string uri = string.Format(uriBaseTranslation + "Translate?text=" +
+                System.Net.WebUtility.UrlEncode(ocrResult) + "&from={0}&to={1}", fromLanguageCode, toLanguageCode);
+
+            // send HTTP request to perform the translation
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", accesskeyTL);
+            var response = await client.GetAsync(uri);
+
+            // Parse the response XML
+            Stream stream = await response.Content.ReadAsStreamAsync();
+            StreamReader translatedStream = new StreamReader(stream, Encoding.GetEncoding("utf-8"));
+            System.Xml.XmlDocument xmlResponse = new System.Xml.XmlDocument();
+            xmlResponse.LoadXml(translatedStream.ReadToEnd());
+
+            // Update the translation field
+            TranslatedTextBlock.Text = xmlResponse.InnerText;
+        }
+                
+        #endregion OCR and Translation functions
+
+
+
+        #region Helper functions
+
+        // Set the image view source
+        private async Task SetImageViewSource(SoftwareBitmap softwareBitmap)
+        {
+            // Get byte array from software bitmap
+            _byteData = await EncodedBytes(softwareBitmap, BitmapEncoder.JpegEncoderId);
+            // Create writeable bitmap from software bitmap
+            var imgSource = new WriteableBitmap(softwareBitmap.PixelWidth, softwareBitmap.PixelHeight);
+            // Copy software bitmap buffer to writeable bitmap
+            softwareBitmap.CopyToBuffer(imgSource.PixelBuffer);
+            // Set UI source source
+            ImageView.Source = imgSource;
+            // Set OCR view source
+            OCRImageView.Source = imgSource;
+        }
+        // Convert bitmap to byte array
+        private async Task<byte[]> EncodedBytes(SoftwareBitmap soft, Guid encoderId)
+        {
+            byte[] array = null;
+
+            // First: Use an encoder to copy from SoftwareBitmap to an in-mem stream (FlushAsync)
+            // Next:  Use ReadAsync on the in-mem stream to get byte[] array
+
+            using (var ms = new InMemoryRandomAccessStream())
+            {
+                BitmapEncoder encoder = await BitmapEncoder.CreateAsync(encoderId, ms);
+                encoder.SetSoftwareBitmap(soft);
+
+                try
+                {
+                    await encoder.FlushAsync();
+                }
+                catch (Exception ex) { return new byte[0]; }
+
+                array = new byte[ms.Size];
+                await ms.ReadAsync(array.AsBuffer(), (uint)ms.Size, InputStreamOptions.None);
+            }
+            return array;
+        }
+        private async void _mediaCapture_CaptureDeviceExclusiveControlStatusChanged(MediaCapture sender, MediaCaptureDeviceExclusiveControlStatusChangedEventArgs args)
+        {
+            if (args.Status == MediaCaptureDeviceExclusiveControlStatus.SharedReadOnlyAvailable)
+            {
+                Debug.WriteLine("The camera preview can't be displayed because another app has exclusive access");
+            }
+            else if (args.Status == MediaCaptureDeviceExclusiveControlStatus.ExclusiveControlAvailable && !_isPreviewing)
+            {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                {
+                    await StartPreviewAsync();
+                });
+            }
+        }
+        // Gets the tanslation of texts using the Computer Vision REST API.                                        
+        
         private void UpdateWordBoxTransform()
         {
             WriteableBitmap bitmap = OCRImageView.Source as WriteableBitmap;
@@ -611,92 +595,25 @@ namespace VisualTranslator
                 StatusBorder.Visibility = Visibility.Collapsed;                
             }
         }
-        private async Task ProcessTranslationAsync(string ocrResult)
+        
+        // Detect launguage of text to be translated
+        private string DetectLanguage(string textToTranslate)
         {
-            string textToTranslate = ocrResult.Trim();
-            // Get from language from the combobox
-            var fromLanguage = FromLanguageComboBox.SelectedValue.ToString();
-            
-            string fromLanguageCode;
+            // Create a client.
+            ITextAnalyticsAPI client = new TextAnalyticsAPI();
+            client.AzureRegion = AzureRegions.Westeurope;
+            client.SubscriptionKey = accesskeyTA;
 
-            // auto-detect source language if requested
-            //if (fromLanguage == "Detect")
-            //{
-            //    fromLanguageCode = DetectLanguage(textToTranslate);
-            //    if (!languageCodes.Contains(fromLanguageCode))
-            //    {
-            //        MessageBox.Show("The source language could not be detected automatically " +
-            //            "or is not supported for translation.", "Language detection failed",
-            //            MessageBoxButton.OK, MessageBoxImage.Error);
-            //        return;
-            //    }
-            //}
-            //else
-                fromLanguageCode = _languageCodesAndTitles[fromLanguage];
+            LanguageBatchResult result = client.DetectLanguage(
+                new BatchInput(
+                    new List<Input>()
+                        {
+                          new Input("1", textToTranslate)                          
+                        }));
 
-            // Get to language from the combobox
-            var toLanguage = ToLanguageComboBox.SelectedValue.ToString();
-            var toLanguageCode = _languageCodesAndTitles[toLanguage];
-
-            // handle null operations: no text or same source/target languages
-            if (textToTranslate == "" || fromLanguageCode == toLanguageCode)
-            {
-                TranslatedTextBlock.Text = textToTranslate;
-                return;
-            }
-
-            string uri = string.Format(uriBaseTranslation + "Translate?text=" +
-                System.Net.WebUtility.UrlEncode(ocrResult) + "&from={0}&to={1}", fromLanguageCode, toLanguageCode);
-
-            // send HTTP request to perform the translation
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", accesskeyTL);
-            var response = await client.GetAsync(uri);
-
-            // Parse the response XML
-            Stream stream = await response.Content.ReadAsStreamAsync();
-            StreamReader translatedStream = new StreamReader(stream, Encoding.GetEncoding("utf-8"));
-            System.Xml.XmlDocument xmlResponse = new System.Xml.XmlDocument();
-            xmlResponse.LoadXml(translatedStream.ReadToEnd());
-
-            // Update the translation field
-            TranslatedTextBlock.Text = xmlResponse.InnerText;            
+            // Get the language name
+            return result.Documents[0].DetectedLanguages[0].Iso6391Name;
         }
-        // DETECT LANGUAGE OF TEXT TO BE TRANSLATED
-        //private string DetectLanguage(string text)
-        //{
-        //    string uri = uriBaseAnalysis + "languages?numberOfLanguagesToDetect=1";
-
-        //    // create request to Text Analytics API
-        //    HttpWebRequest detectLanguageWebRequest = (HttpWebRequest)WebRequest.Create(uri);
-        //    detectLanguageWebRequest.Headers["Ocp-Apim-Subscription-Key"] = accesskeyTA;
-        //    detectLanguageWebRequest.Method = "POST";
-
-        //    // create and send body of request
-        //    var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
-        //    string jsonText = serializer.Serialize(text);
-
-        //    string body = "{ \"documents\": [ { \"id\": \"0\", \"text\": " + jsonText + "} ] }";
-        //    byte[] data = Encoding.UTF8.GetBytes(body);
-        //    detectLanguageWebRequest.ContentLength = data.Length;
-
-        //    using (var requestStream = detectLanguageWebRequest.GetRequestStream())
-        //        requestStream.Write(data, 0, data.Length);
-
-        //    HttpWebResponse response = (HttpWebResponse)detectLanguageWebRequest.GetResponse();
-
-        //    // read and and parse JSON response
-        //    var responseStream = response.GetResponseStream();
-        //    var jsonString = new StreamReader(responseStream, Encoding.GetEncoding("utf-8")).ReadToEnd();
-        //    dynamic jsonResponse = serializer.DeserializeObject(jsonString);
-
-        //    // fish out the detected language code
-        //    var languageInfo = jsonResponse["documents"][0]["detectedLanguages"][0];
-        //    if (languageInfo["score"] > (decimal)0.5)
-        //        return languageInfo["iso6391Name"];
-        //    else
-        //        return "";
-        //}
         // GET translatable langue codes
         private async Task GetLanguagesForTranslate()
         {
@@ -765,53 +682,4 @@ namespace VisualTranslator
         StatusMessage,
         ErrorMessage
     };
-    public enum CountryCode
-    {
-
-    }
-    public class ComboBoxItem
-    {
-        // Auto-Impl Properties for trivial get and set
-        public string Name { get; set; }
-        public string ThumbnailUrl { get; set; }
-        public string ContentUrl { get; set; }
-        public string HostPageUrl { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public string Size { get { return Width + " x " + Height; } }
-        public Thumbnail Thumbnail { get; set; }
-    }
-    public class ImageInfoViewModel
-    {
-        private ObservableCollection<ComboBoxItem> imageInfoCVS = new ObservableCollection<ComboBoxItem>();
-
-        // Default Constructor
-        public ImageInfoViewModel()
-        {
-            var defaultCount = 40;
-            for (int i = 0; i < defaultCount; i++)
-            {
-                this.imageInfoCVS.Add(new ComboBoxItem()
-                {
-                    Name = "Default Box",
-                    ThumbnailUrl = @"Assets\Square150x150Logo.scale-200.png"
-                });
-            }
-        }
-        // Add each imageResource into observable collection
-        public ImageInfoViewModel(List<ComboBoxItem> imageResourceList)
-        {
-            foreach (ComboBoxItem imageResource in imageResourceList)
-            {
-                this.imageInfoCVS.Add(imageResource);
-            }
-        }
-
-        public ObservableCollection<ComboBoxItem> ImageInfoCVS { get { return imageInfoCVS; } }
-    }
-    public class Thumbnail
-    {
-        public int width { get; set; }
-        public int height { get; set; }
-    }
 }

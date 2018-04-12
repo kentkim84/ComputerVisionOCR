@@ -31,13 +31,17 @@
     <AppXManifest Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2018-04-12T19:14:23.357</Modified>
+      <Modified>2018-04-12T20:40:54.955</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Debug\VisualTranslator.exe">
       <PackagePath>entrypoint\VisualTranslator.exe</PackagePath>
-      <Modified>2018-04-12T19:14:22.554</Modified>
+      <Modified>2018-04-12T20:40:54.565</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\.nuget\packages\microsoft.azure.cognitiveservices.language\1.0.0-preview\lib\netstandard1.4\Microsoft.Azure.CognitiveServices.Language.dll">
+      <PackagePath>Microsoft.Azure.CognitiveServices.Language.dll</PackagePath>
+      <Modified>2017-09-19T16:45:52.000</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\kentkim84\.nuget\packages\microsoft.csharp\4.3.0\lib\netcore50\Microsoft.CSharp.dll">
       <PackagePath>Microsoft.CSharp.dll</PackagePath>
@@ -90,6 +94,14 @@
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\NuGetPackages\microsoft.netcore.portable.compatibility\1.0.2\lib\netcore50\System.dll">
       <PackagePath>System.dll</PackagePath>
       <Modified>2016-07-01T17:10:48.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\.nuget\packages\microsoft.rest.clientruntime\2.3.10\lib\netstandard1.4\Microsoft.Rest.ClientRuntime.dll">
+      <PackagePath>Microsoft.Rest.ClientRuntime.dll</PackagePath>
+      <Modified>2017-09-04T22:11:14.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\.nuget\packages\microsoft.rest.clientruntime.azure\3.3.10\lib\netstandard1.4\Microsoft.Rest.ClientRuntime.Azure.dll">
+      <PackagePath>Microsoft.Rest.ClientRuntime.Azure.dll</PackagePath>
+      <Modified>2017-09-06T22:02:52.000</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\NuGetPackages\microsoft.visualbasic\10.0.1\lib\netcore50\Microsoft.VisualBasic.dll">
       <PackagePath>Microsoft.VisualBasic.dll</PackagePath>
@@ -568,11 +580,11 @@
     <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2018-04-12T18:49:44.111</Modified>
+      <Modified>2018-04-12T20:29:14.991</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Debug\Core\VisualTranslator.exe">
       <PackagePath>VisualTranslator.exe</PackagePath>
-      <Modified>2018-04-12T19:14:23.345</Modified>
+      <Modified>2018-04-12T20:40:54.950</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

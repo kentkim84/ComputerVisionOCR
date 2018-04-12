@@ -126,14 +126,6 @@
                             <SymbolIcon Symbol="BrowsePhotos"/>
                         </Viewbox>
                     </Button>
-                    <Button 
-                        x:Name="CloudButton" 
-                        Style="{StaticResource TextBlockButtonStyle}"                    
-                        Tapped="CloudButton_Tapped">
-                        <Viewbox MaxWidth="30" MaxHeight="30">
-                            <SymbolIcon Symbol="Sync"/>
-                        </Viewbox>
-                    </Button>
                 </StackPanel>
 
             </Grid>

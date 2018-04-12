@@ -132,19 +132,15 @@ namespace VisualTranslator.VisualTranslator_XamlTypeInfo
 
         private void InitTypeTables()
         {
-            _typeNameTable = new string[5];
+            _typeNameTable = new string[3];
             _typeNameTable[0] = "VisualTranslator.MainPage";
             _typeNameTable[1] = "Windows.UI.Xaml.Controls.Page";
             _typeNameTable[2] = "Windows.UI.Xaml.Controls.UserControl";
-            _typeNameTable[3] = "VisualTranslator.ImageInfoViewModel";
-            _typeNameTable[4] = "Object";
 
-            _typeTable = new global::System.Type[5];
+            _typeTable = new global::System.Type[3];
             _typeTable[0] = typeof(global::VisualTranslator.MainPage);
             _typeTable[1] = typeof(global::Windows.UI.Xaml.Controls.Page);
             _typeTable[2] = typeof(global::Windows.UI.Xaml.Controls.UserControl);
-            _typeTable[3] = typeof(global::VisualTranslator.ImageInfoViewModel);
-            _typeTable[4] = typeof(global::System.Object);
         }
 
         private int LookupTypeIndexByName(string typeName)
@@ -180,7 +176,6 @@ namespace VisualTranslator.VisualTranslator_XamlTypeInfo
         }
 
         private object Activate_0_MainPage() { return new global::VisualTranslator.MainPage(); }
-        private object Activate_3_ImageInfoViewModel() { return new global::VisualTranslator.ImageInfoViewModel(); }
 
         private global::Windows.UI.Xaml.Markup.IXamlType CreateXamlType(int typeIndex)
         {
@@ -195,7 +190,6 @@ namespace VisualTranslator.VisualTranslator_XamlTypeInfo
             case 0:   //  VisualTranslator.MainPage
                 userType = new global::VisualTranslator.VisualTranslator_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.Controls.Page"));
                 userType.Activator = Activate_0_MainPage;
-                userType.AddMemberName("ViewModel");
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
@@ -207,47 +201,16 @@ namespace VisualTranslator.VisualTranslator_XamlTypeInfo
             case 2:   //  Windows.UI.Xaml.Controls.UserControl
                 xamlType = new global::VisualTranslator.VisualTranslator_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
-
-            case 3:   //  VisualTranslator.ImageInfoViewModel
-                userType = new global::VisualTranslator.VisualTranslator_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.SetIsReturnTypeStub();
-                userType.SetIsLocalType();
-                xamlType = userType;
-                break;
-
-            case 4:   //  Object
-                xamlType = new global::VisualTranslator.VisualTranslator_XamlTypeInfo.XamlSystemBaseType(typeName, type);
-                break;
             }
             return xamlType;
         }
 
 
-        private object get_0_MainPage_ViewModel(object instance)
-        {
-            var that = (global::VisualTranslator.MainPage)instance;
-            return that.ViewModel;
-        }
-        private void set_0_MainPage_ViewModel(object instance, object Value)
-        {
-            var that = (global::VisualTranslator.MainPage)instance;
-            that.ViewModel = (global::VisualTranslator.ImageInfoViewModel)Value;
-        }
 
         private global::Windows.UI.Xaml.Markup.IXamlMember CreateXamlMember(string longMemberName)
         {
             global::VisualTranslator.VisualTranslator_XamlTypeInfo.XamlMember xamlMember = null;
-            global::VisualTranslator.VisualTranslator_XamlTypeInfo.XamlUserType userType;
-
-            switch (longMemberName)
-            {
-            case "VisualTranslator.MainPage.ViewModel":
-                userType = (global::VisualTranslator.VisualTranslator_XamlTypeInfo.XamlUserType)GetXamlTypeByName("VisualTranslator.MainPage");
-                xamlMember = new global::VisualTranslator.VisualTranslator_XamlTypeInfo.XamlMember(this, "ViewModel", "VisualTranslator.ImageInfoViewModel");
-                xamlMember.Getter = get_0_MainPage_ViewModel;
-                xamlMember.Setter = set_0_MainPage_ViewModel;
-                break;
-            }
+            // No Local Properties
             return xamlMember;
         }
     }

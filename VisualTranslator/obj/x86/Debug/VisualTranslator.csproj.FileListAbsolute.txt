@@ -223,3 +223,11 @@ C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\obj\x86\Debug\
 C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\obj\x86\Debug\qualifiers.txt.intermediate
 C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\obj\x86\Debug\MultipleQualifiersPerDimensionFound.txt
 C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\obj\x86\Debug\ProjectArchitectures.txt
+C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Debug\Microsoft.Azure.CognitiveServices.Language.dll
+C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Debug\Microsoft.Rest.ClientRuntime.dll
+C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Debug\Microsoft.Rest.ClientRuntime.Azure.dll
+C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\obj\x86\Debug\Microsoft.Rest.ClientRuntime\en\Microsoft.Rest.ClientRuntime.Properties.Resources.resw
+C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\obj\x86\Debug\Microsoft.Rest.ClientRuntime.Azure\en\Microsoft.Rest.ClientRuntime.Azure.Properties.Resources.resw
+C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\obj\x86\Debug\VisualTranslator.csproj.GenerateResource.Cache
+C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\obj\x86\Debug\resources.en.resfiles
+C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\obj\x86\Debug\resources.en.resfiles.intermediate

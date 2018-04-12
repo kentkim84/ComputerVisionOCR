@@ -95,8 +95,8 @@
                     Grid.Row="0" Grid.ColumnSpan="4"/>
                 <!--Image Preview-->
                 <Grid Grid.Row="1" Grid.ColumnSpan="4" Margin="15">
-                    <CaptureElement x:ConnectionId='19' x:Name="ImagePreview" Stretch="Uniform"/>
-                    <Image x:ConnectionId='20' x:Name="ImageView" Stretch="Uniform" Visibility="Collapsed"/>
+                    <CaptureElement x:ConnectionId='18' x:Name="ImagePreview" Stretch="Uniform"/>
+                    <Image x:ConnectionId='19' x:Name="ImageView" Stretch="Uniform" Visibility="Collapsed"/>
                 </Grid>
                 <!--Button Group Control-->
                 <StackPanel 
@@ -124,14 +124,6 @@
                                                         >
                         <Viewbox MaxWidth="30" MaxHeight="30">
                             <SymbolIcon Symbol="BrowsePhotos"/>
-                        </Viewbox>
-                    </Button>
-                    <Button x:ConnectionId='18' 
-                        x:Name="CloudButton" 
-                        Style="{StaticResource TextBlockButtonStyle}"                    
-                                                   >
-                        <Viewbox MaxWidth="30" MaxHeight="30">
-                            <SymbolIcon Symbol="Sync"/>
                         </Viewbox>
                     </Button>
                 </StackPanel>
