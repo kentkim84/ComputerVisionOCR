@@ -49,7 +49,7 @@ namespace VisualTranslator
         // Microsoft cognitive service - Translator Text Api
         // The subscriptionKey string key and the uri base
         private const string accesskeyTL = "34e85ab9d8624f6eafe5e44cccf1a38d";                
-        private const string uriBaseTranslation = "https://api.microsofttranslator.com/V2/Http.svc/Translate";
+        private const string uriBaseTranslation = "https://api.microsofttranslator.com/V2/Http.svc/";
 
         // MediaCapture and its state variables
         private MediaCapture _mediaCapture;
@@ -173,8 +173,8 @@ namespace VisualTranslator
             //var imageAnalysis = await MakeAnalysisRequest(_byteData);
             //var searchResult = BingImageSearch(imageAnalysis);
 
-            await ProcessOCRAsync(_softwareBitmap);
-
+            var ocrResult = await ProcessOCRAsync(_softwareBitmap);
+            var translationResult = await ProcessTranslationAsync(ocrResult);
             // 
             //ProcessSearchResult(searchResult);
 
@@ -703,7 +703,7 @@ namespace VisualTranslator
 
             return sb.ToString().Trim();
         }
-        private async Task ProcessOCRAsync(SoftwareBitmap softwareBitmap)
+        private async Task<string> ProcessOCRAsync(SoftwareBitmap softwareBitmap)
         {
             OcrEngine ocrEngine = OcrEngine.TryCreateFromLanguage(ocrLanguage);
 
@@ -711,7 +711,7 @@ namespace VisualTranslator
             {
                 NotifyUser(ocrLanguage.DisplayName + " is not supported.", NotifyType.ErrorMessage);
 
-                return;
+                return string.Empty;
             }
         
             var ocrResult = await ocrEngine.RecognizeAsync(softwareBitmap);
@@ -777,6 +777,8 @@ namespace VisualTranslator
             NotifyUser("Image processed using " + ocrEngine.RecognizerLanguage.DisplayName + " language.", NotifyType.StatusMessage);
 
             UpdateWordBoxTransform();
+
+            return ocrResult.Text;
         }
         private void UpdateWordBoxTransform()
         {
@@ -850,6 +852,67 @@ namespace VisualTranslator
                 StatusBorder.Visibility = Visibility.Collapsed;                
             }
         }
+        private async Task<string> ProcessTranslationAsync(string ocrResult)
+        {
+            var fromLanguageCode = "en-us";
+            var toLanguageCode = "fr-fr";
+            string uri = string.Format(uriBaseTranslation + "Translate?text=" +
+                System.Net.WebUtility.UrlEncode(ocrResult) + "&from={0}&to={1}", fromLanguageCode, toLanguageCode);
+
+            // send HTTP request to perform the translation
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", accesskeyTL);
+            var response = await client.GetAsync(uri);
+
+            // Parse the response XML
+            Stream stream = await response.Content.ReadAsStreamAsync();
+            StreamReader translatedStream = new StreamReader(stream, Encoding.GetEncoding("utf-8"));
+            System.Xml.XmlDocument xmlResponse = new System.Xml.XmlDocument();
+            xmlResponse.LoadXml(translatedStream.ReadToEnd());
+
+            // Update the translation field
+            TranslatedTextBlock.Text = xmlResponse.InnerText;
+
+            return xmlResponse.InnerText;
+        }
+
+        //private void ProcessTranslationResult(string translationResult)
+        //{
+        //    JObject jObject = JObject.Parse(translationResult);
+        //    IList<JToken> jArray = jObject["value"].Children().ToList();
+        //    List<ImageInfo> imageResourceList = new List<ImageInfo>();
+
+        //    // Retrieve elements from the value
+        //    foreach (JToken t in jArray)
+        //    {
+        //        var thumbnailJObject = (JObject)t["thumbnail"];
+
+        //        var thumbnail = new Thumbnail()
+        //        {
+        //            width = (int)thumbnailJObject["width"],
+        //            height = (int)thumbnailJObject["height"]
+        //        };
+
+        //        var imageResource = new ImageInfo()
+        //        {
+        //            Name = (string)t["name"],
+        //            ThumbnailUrl = (string)t["thumbnailUrl"],
+        //            ContentUrl = (string)t["contentUrl"],
+        //            HostPageUrl = (string)t["hostPageUrl"],
+        //            Width = (int)t["width"],
+        //            Height = (int)t["height"],
+        //            Thumbnail = thumbnail
+        //        };
+
+        //        // Add item into List
+        //        imageResourceList.Add(imageResource);
+        //    }
+
+        //    // Add image resource list to items source
+        //    this.ViewModel = new ImageInfoViewModel(imageResourceList);
+        //    ImageInfoGridView.ItemsSource = ViewModel.ImageInfoCVS;
+        //}
+
         #endregion Helper functions
 
     }
