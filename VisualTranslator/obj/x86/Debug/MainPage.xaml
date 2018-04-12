@@ -95,14 +95,14 @@
                     Grid.Row="0" Grid.ColumnSpan="4"/>
                 <!--Image Preview-->
                 <Grid Grid.Row="1" Grid.ColumnSpan="4" Margin="15">
-                    <CaptureElement x:ConnectionId='17' x:Name="ImagePreview" Stretch="Uniform"/>
-                    <Image x:ConnectionId='18' x:Name="ImageView" Stretch="Uniform" Visibility="Collapsed"/>
+                    <CaptureElement x:ConnectionId='19' x:Name="ImagePreview" Stretch="Uniform"/>
+                    <Image x:ConnectionId='20' x:Name="ImageView" Stretch="Uniform" Visibility="Collapsed"/>
                 </Grid>
                 <!--Button Group Control-->
                 <StackPanel 
                     HorizontalAlignment="Center" Orientation="Horizontal"                                     
                     Grid.Row="2" Grid.ColumnSpan="4">
-                    <Button x:ConnectionId='13' 
+                    <Button x:ConnectionId='15' 
                         x:Name="PreviewMediaButton" 
                         Style="{StaticResource TextBlockButtonStyle}"                    
                                                           >
@@ -110,7 +110,7 @@
                             <SymbolIcon Symbol="Camera"/>
                         </Viewbox>
                     </Button>
-                    <Button x:ConnectionId='14' 
+                    <Button x:ConnectionId='16' 
                         x:Name="OpenFileButton" 
                         Style="{StaticResource TextBlockButtonStyle}"                    
                                                       >
@@ -118,7 +118,7 @@
                             <SymbolIcon Symbol="OpenFile"/>
                         </Viewbox>
                     </Button>
-                    <Button x:ConnectionId='15' 
+                    <Button x:ConnectionId='17' 
                         x:Name="QueryImageButton" 
                         Style="{StaticResource TextBlockButtonStyle}"                    
                                                         >
@@ -126,7 +126,7 @@
                             <SymbolIcon Symbol="BrowsePhotos"/>
                         </Viewbox>
                     </Button>
-                    <Button x:ConnectionId='16' 
+                    <Button x:ConnectionId='18' 
                         x:Name="CloudButton" 
                         Style="{StaticResource TextBlockButtonStyle}"                    
                                                    >
@@ -177,33 +177,43 @@
                 <Grid                     
                     HorizontalAlignment="Center" VerticalAlignment="Center"
                     Grid.Row="0" Grid.ColumnSpan="2">
-                    <Image x:ConnectionId='11' x:Name="OCRImageView" Stretch="Uniform"                                       />
-                    <Grid x:ConnectionId='12' x:Name="OCRTextOverlay" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Image x:ConnectionId='13' x:Name="OCRImageView" Stretch="Uniform"                                       />
+                    <Grid x:ConnectionId='14' x:Name="OCRTextOverlay" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 </Grid>
                 <RelativePanel Grid.Row="1" Grid.ColumnSpan="2">
-                    <Border x:ConnectionId='9' x:Name="StatusBorder" Margin="0,0,0,0">
+                    <Border x:ConnectionId='11' x:Name="StatusBorder" Margin="0,0,0,0">
                         <ScrollViewer VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto" MaxHeight="200">
-                            <TextBlock x:ConnectionId='10' 
+                            <TextBlock x:ConnectionId='12' 
                             x:Name="StatusBlock" FontWeight="Bold" 
                             MaxWidth="{Binding ElementName=OCRControlPanel, Path=ActualWidth}" 
                             Margin="10,10,10,20" TextWrapping="Wrap"/>
                         </ScrollViewer>
                     </Border>
                 </RelativePanel>
-                <RelativePanel Grid.Row="2" Grid.Column="0">
-                    <TextBlock Text="Original Text"/>
+                <StackPanel Grid.Row="2" Grid.Column="0">
+                    <TextBlock Text="Translate From" FontWeight="SemiBold" FontSize="20"/>
+                    <ComboBox x:ConnectionId='9' 
+                        x:Name="FromLanguageComboBox"
+                        Header="Language Codes"
+                        HorizontalAlignment="Left" VerticalAlignment="Top"
+                        FontSize="14" TabIndex="2"/>
                     <ScrollViewer VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto" MaxHeight="200">
-                        <TextBlock x:ConnectionId='8' x:Name="OriginalTextBlock" FontWeight="Bold" 
+                        <TextBlock x:ConnectionId='10' x:Name="OriginalTextBlock" FontWeight="Bold" 
                             MaxWidth="{Binding ElementName=OCRControlPanel, Path=ActualWidth}" Margin="10,10,10,20" TextWrapping="Wrap"  />
                     </ScrollViewer>
-                </RelativePanel>
-                <RelativePanel Grid.Row="2" Grid.Column="1">
-                    <TextBlock Text="Translated Text"/>
+                </StackPanel>
+                <StackPanel Grid.Row="2" Grid.Column="1">
+                    <TextBlock Text="Translate To" FontWeight="SemiBold" FontSize="20"/>
+                    <ComboBox x:ConnectionId='7' 
+                        x:Name="ToLanguageComboBox"
+                        Header="Language Codes"
+                        HorizontalAlignment="Left" VerticalAlignment="Top"
+                        FontSize="14" TabIndex="2"/>
                     <ScrollViewer VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto" MaxHeight="200">
-                        <TextBlock x:ConnectionId='7' x:Name="TranslatedTextBlock" FontWeight="Bold" 
+                        <TextBlock x:ConnectionId='8' x:Name="TranslatedTextBlock" FontWeight="Bold" 
                                 MaxWidth="{Binding ElementName=OCRControlPanel, Path=ActualWidth}" Margin="10,10,10,20" TextWrapping="Wrap"  />
                     </ScrollViewer>
-                </RelativePanel>
+                </StackPanel>
                 
             </Grid>
         </StackPanel>

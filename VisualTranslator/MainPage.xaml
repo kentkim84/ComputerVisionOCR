@@ -190,20 +190,30 @@
                         </ScrollViewer>
                     </Border>
                 </RelativePanel>
-                <RelativePanel Grid.Row="2" Grid.Column="0">
-                    <TextBlock Text="Original Text"/>
+                <StackPanel Grid.Row="2" Grid.Column="0">
+                    <TextBlock Text="Translate From" FontWeight="SemiBold" FontSize="20"/>
+                    <ComboBox 
+                        x:Name="FromLanguageComboBox"
+                        Header="Language Codes"
+                        HorizontalAlignment="Left" VerticalAlignment="Top"
+                        FontSize="14" TabIndex="2"/>
                     <ScrollViewer VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto" MaxHeight="200">
                         <TextBlock x:Name="OriginalTextBlock" FontWeight="Bold" 
                             MaxWidth="{Binding ElementName=OCRControlPanel, Path=ActualWidth}" Margin="10,10,10,20" TextWrapping="Wrap"  />
                     </ScrollViewer>
-                </RelativePanel>
-                <RelativePanel Grid.Row="2" Grid.Column="1">
-                    <TextBlock Text="Translated Text"/>
+                </StackPanel>
+                <StackPanel Grid.Row="2" Grid.Column="1">
+                    <TextBlock Text="Translate To" FontWeight="SemiBold" FontSize="20"/>
+                    <ComboBox 
+                        x:Name="ToLanguageComboBox"
+                        Header="Language Codes"
+                        HorizontalAlignment="Left" VerticalAlignment="Top"
+                        FontSize="14" TabIndex="2"/>
                     <ScrollViewer VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto" MaxHeight="200">
                         <TextBlock x:Name="TranslatedTextBlock" FontWeight="Bold" 
                                 MaxWidth="{Binding ElementName=OCRControlPanel, Path=ActualWidth}" Margin="10,10,10,20" TextWrapping="Wrap"  />
                     </ScrollViewer>
-                </RelativePanel>
+                </StackPanel>
                 
             </Grid>
         </StackPanel>

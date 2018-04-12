@@ -57,10 +57,10 @@ namespace VisualTranslator
         private bool _isPreviewing;
 
         // Language for OCR.
-        private Language ocrLanguage = new Language("en");
+        private Language _ocrLanguage = new Language("en");
 
         // Recognized words ovelay boxes.
-        private List<WordOverlay> wordBoxes = new List<WordOverlay>();
+        private List<WordOverlay> _wordBoxes = new List<WordOverlay>();
 
         // Prevent the screen from sleeping while the camera is running
         private readonly DisplayRequest _displayRequest = new DisplayRequest();
@@ -69,21 +69,21 @@ namespace VisualTranslator
         private int _videoFrameWidth;
         private int _videoFrameHeight;
 
-        // Bitmap holder and Image stream
-        private SoftwareBitmap _softwareBitmap;
-        private WriteableBitmap _imgSource;
+        // Bitmap holder
+        private SoftwareBitmap _softwareBitmap;        
 
         // Image byte array
         private byte[] _byteData;
+        
+        private OcrEngine _engine = OcrEngine.TryCreateFromLanguage(new Windows.Globalization.Language("en-US"));
+        
+        // array of language codes
+        private string[] _languageCodes;
 
-        // Used to return image search results including relevant headers
-        struct SearchResult
-        {
-            public String jsonResult;
-            public Dictionary<String, String> relevantHeaders;
-        }
+        // Dictionary to map language code from friendly name (sorted case-insensitively on language name)
+        private SortedDictionary<string, string> _languageCodesAndTitles =
+            new SortedDictionary<string, string>(Comparer<string>.Create((a, b) => string.Compare(a, b, true)));
 
-        OcrEngine engine = OcrEngine.TryCreateFromLanguage(new Windows.Globalization.Language("en-US"));
 
         #region Constructor, lifecycle and navigation
 
@@ -106,14 +106,17 @@ namespace VisualTranslator
         }
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (!OcrEngine.IsLanguageSupported(ocrLanguage))
+            if (!OcrEngine.IsLanguageSupported(_ocrLanguage))
             {
-                this.NotifyUser(ocrLanguage.DisplayName + " is not supported.", NotifyType.ErrorMessage);
+                this.NotifyUser(_ocrLanguage.DisplayName + " is not supported.", NotifyType.ErrorMessage);
 
                 return;
             }
 
             await InitialiseCameraAsync();
+            await GetLanguagesForTranslate(); // Get codes of languages that can be translated
+            await GetLanguageNames(); // Get friendly names of languages
+            PopulateLanguageMenus(); // Fill the drop-down language lists
         }
 
         #endregion Constructor, lifecycle and navigation
@@ -349,7 +352,7 @@ namespace VisualTranslator
                 {
                     // Cleanup the UI
                     OCRTextOverlay.Children.Clear();
-                    wordBoxes.Clear();
+                    _wordBoxes.Clear();
                     ImagePreview.Source = null;                    
 
                     if (_displayRequest != null)
@@ -383,7 +386,7 @@ namespace VisualTranslator
                 // Create softwarebitmap from current video frame
                 _softwareBitmap = currentFrame.SoftwareBitmap;
                 // Set image source
-                await SetImageControlSource(_softwareBitmap);
+                await SetImageViewSource(_softwareBitmap);
             }
         }
         private async Task LoadImageAsync(StorageFile file)
@@ -394,7 +397,7 @@ namespace VisualTranslator
                 // Create software bitmap from file stream
                 _softwareBitmap = await decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
                 // Set image source
-                await SetImageControlSource(_softwareBitmap);
+                await SetImageViewSource(_softwareBitmap);
             }
         }
 
@@ -404,19 +407,21 @@ namespace VisualTranslator
 
         #region Helper functions
 
-        private async Task SetImageControlSource(SoftwareBitmap softwareBitmap)
+        // Set the image view source
+        private async Task SetImageViewSource(SoftwareBitmap softwareBitmap)
         {
             // Get byte array from software bitmap
             _byteData = await EncodedBytes(softwareBitmap, BitmapEncoder.JpegEncoderId);
             // Create writeable bitmap from software bitmap
-            _imgSource = new WriteableBitmap(softwareBitmap.PixelWidth, softwareBitmap.PixelHeight);
+            var imgSource = new WriteableBitmap(softwareBitmap.PixelWidth, softwareBitmap.PixelHeight);
             // Copy software bitmap buffer to writeable bitmap
-            softwareBitmap.CopyToBuffer(_imgSource.PixelBuffer);
+            softwareBitmap.CopyToBuffer(imgSource.PixelBuffer);
             // Set UI source source
-            ImageView.Source = _imgSource;
+            ImageView.Source = imgSource;
             // Set OCR view source
-            OCRImageView.Source = _imgSource;
+            OCRImageView.Source = imgSource;
         }
+        // Convert bitmap to byte array
         private async Task<byte[]> EncodedBytes(SoftwareBitmap soft, Guid encoderId)
         {
             byte[] array = null;
@@ -454,262 +459,14 @@ namespace VisualTranslator
                 });
             }
         }
-        // Gets the analysis of the specified image file by using the Computer Vision REST API.
-        //private static async Task<string> MakeAnalysisRequest(byte[] _byteData)
-        //{
-        //    HttpClient client = new HttpClient();
-
-        //    // Request headers.
-        //    client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", accesskeyCV);
-
-        //    // Request parameters. A third optional parameter is "details".
-        //    string requestParameters = "visualFeatures=Categories,Description,Color&language=en";
-
-        //    // Assemble the URI for the REST API Call.
-        //    string uri = uriBaseCV + "?" + requestParameters;
-
-        //    HttpResponseMessage response;
-
-        //    using (ByteArrayContent content = new ByteArrayContent(_byteData))
-        //    {
-        //        // This example uses content type "application/octet-stream".
-        //        // The other content types you can use are "application/json" and "multipart/form-data".
-        //        content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-
-        //        // Execute the REST API call.
-        //        response = await client.PostAsync(uri, content);
-
-        //        // Get the JSON response.
-        //        var contentString = await response.Content.ReadAsStringAsync();
-
-        //        // Display the JSON response.
-        //        Debug.WriteLine("\nAnalysis Response:\n");
-        //        Debug.WriteLine(JsonPrettyPrintCV(contentString));
-
-        //        return ProcessJsonContent(contentString);
-        //    }
-        //}
-        private static string ProcessJsonContent(string jsonContent)
-        {
-            if (string.IsNullOrEmpty(jsonContent))
-                return string.Empty;
-
-            // Get tags and captions
-            JObject jObject = JObject.Parse(jsonContent);
-            IList<JToken> jArray = jObject["description"]["captions"].Children().ToList();
-            var result = (string)jArray[0]["text"];
-
-            //Debug.WriteLine(result);
-            return result;
-        }
-        // Performs a Bing Image search and return the results as a SearchResult.        
-        //private string BingImageSearch(string searchQuery)
-        //{
-        //    // Construct the URI of the search request
-        //    var uriQuery = uriBaseBing + "?q=" + Uri.EscapeDataString(searchQuery);
-
-        //    // Perform the Web request and get the response
-        //    WebRequest request = HttpWebRequest.Create(uriQuery);
-        //    request.Headers["Ocp-Apim-Subscription-Key"] = accessKeyBing;
-        //    HttpWebResponse response = (HttpWebResponse)request.GetResponseAsync().Result;
-        //    string json = new StreamReader(response.GetResponseStream()).ReadToEnd();
-
-        //    // Create result object for return
-        //    var searchResult = new SearchResult()
-        //    {
-        //        jsonResult = json,
-        //        relevantHeaders = new Dictionary<String, String>()
-        //    };
-
-        //    // Extract Bing HTTP headers
-        //    foreach (String header in response.Headers)
-        //    {
-        //        if (header.StartsWith("BingAPIs-") || header.StartsWith("X-MSEdge-"))
-        //            searchResult.relevantHeaders[header] = response.Headers[header];
-        //    }
-
-        //    Debug.WriteLine("\nRelevant HTTP Headers:\n");
-        //    foreach (var header in searchResult.relevantHeaders)
-        //        Debug.WriteLine(header.Key + ": " + header.Value);
-
-        //    Debug.WriteLine("\nSearch Response:\n");
-        //    Debug.WriteLine(JsonPrettyPrintBing(searchResult.jsonResult));
-
-        //    return searchResult.jsonResult;
-        //}
-        //private void ProcessSearchResult(string searchResult)
-        //{
-        //    JObject jObject = JObject.Parse(searchResult);
-        //    IList<JToken> jArray = jObject["value"].Children().ToList();
-        //    List<ImageInfo> imageResourceList = new List<ImageInfo>();
-
-        //    // Retrieve elements from the value
-        //    foreach (JToken t in jArray)
-        //    {
-        //        var thumbnailJObject = (JObject)t["thumbnail"];
-
-        //        var thumbnail = new Thumbnail()
-        //        {
-        //            width = (int)thumbnailJObject["width"],
-        //            height = (int)thumbnailJObject["height"]
-        //        };
-
-        //        var imageResource = new ImageInfo()
-        //        {
-        //            Name = (string)t["name"],
-        //            ThumbnailUrl = (string)t["thumbnailUrl"],
-        //            ContentUrl = (string)t["contentUrl"],
-        //            HostPageUrl = (string)t["hostPageUrl"],
-        //            Width = (int)t["width"],
-        //            Height = (int)t["height"],
-        //            Thumbnail = thumbnail
-        //        };
-
-        //        // Add item into List
-        //        imageResourceList.Add(imageResource);
-        //    }
-
-        //    // Add image resource list to items source
-        //    this.ViewModel = new ImageInfoViewModel(imageResourceList);
-        //    ImageInfoGridView.ItemsSource = ViewModel.ImageInfoCVS;
-        //}
-        // Formats the given JSON string by adding line breaks and indents.
-        private static string JsonPrettyPrintCV(string json)
-        {
-            if (string.IsNullOrEmpty(json))
-                return string.Empty;
-
-            json = json.Replace(Environment.NewLine, "").Replace("\t", "");
-
-            string INDENT_STRING = "    ";
-            var indent = 0;
-            var quoted = false;
-            var sb = new StringBuilder();
-            for (var i = 0; i < json.Length; i++)
-            {
-                var ch = json[i];
-                switch (ch)
-                {
-                    case '{':
-                    case '[':
-                        sb.Append(ch);
-                        if (!quoted)
-                        {
-                            sb.AppendLine();
-                            Enumerable.Range(0, ++indent).ForEach(item => sb.Append(INDENT_STRING));
-                        }
-                        break;
-                    case '}':
-                    case ']':
-                        if (!quoted)
-                        {
-                            sb.AppendLine();
-                            Enumerable.Range(0, --indent).ForEach(item => sb.Append(INDENT_STRING));
-                        }
-                        sb.Append(ch);
-                        break;
-                    case '"':
-                        sb.Append(ch);
-                        bool escaped = false;
-                        var index = i;
-                        while (index > 0 && json[--index] == '\\')
-                            escaped = !escaped;
-                        if (!escaped)
-                            quoted = !quoted;
-                        break;
-                    case ',':
-                        sb.Append(ch);
-                        if (!quoted)
-                        {
-                            sb.AppendLine();
-                            Enumerable.Range(0, indent).ForEach(item => sb.Append(INDENT_STRING));
-                        }
-                        break;
-                    case ':':
-                        sb.Append(ch);
-                        if (!quoted)
-                            sb.Append(" ");
-                        break;
-                    default:
-                        sb.Append(ch);
-                        break;
-                }
-            }
-            return sb.ToString();
-        }
-        private static string JsonPrettyPrintBing(string json)
-        {
-            if (string.IsNullOrEmpty(json))
-                return string.Empty;
-
-            json = json.Replace(Environment.NewLine, "").Replace("\t", "");
-
-            StringBuilder sb = new StringBuilder();
-            bool quote = false;
-            bool ignore = false;
-            char last = ' ';
-            int offset = 0;
-            int indentLength = 2;
-
-            foreach (char ch in json)
-            {
-                switch (ch)
-                {
-                    case '"':
-                        if (!ignore) quote = !quote;
-                        break;
-                    case '\\':
-                        if (quote && last != '\\') ignore = true;
-                        break;
-                }
-
-                if (quote)
-                {
-                    sb.Append(ch);
-                    if (last == '\\' && ignore) ignore = false;
-                }
-                else
-                {
-                    switch (ch)
-                    {
-                        case '{':
-                        case '[':
-                            sb.Append(ch);
-                            sb.Append(Environment.NewLine);
-                            sb.Append(new string(' ', ++offset * indentLength));
-                            break;
-                        case '}':
-                        case ']':
-                            sb.Append(Environment.NewLine);
-                            sb.Append(new string(' ', --offset * indentLength));
-                            sb.Append(ch);
-                            break;
-                        case ',':
-                            sb.Append(ch);
-                            sb.Append(Environment.NewLine);
-                            sb.Append(new string(' ', offset * indentLength));
-                            break;
-                        case ':':
-                            sb.Append(ch);
-                            sb.Append(' ');
-                            break;
-                        default:
-                            if (quote || ch != ' ') sb.Append(ch);
-                            break;
-                    }
-                }
-                last = ch;
-            }
-
-            return sb.ToString().Trim();
-        }
+        // Gets the tanslation of texts using the Computer Vision REST API.                                        
         private async Task<string> ProcessOCRAsync(SoftwareBitmap softwareBitmap)
         {
-            OcrEngine ocrEngine = OcrEngine.TryCreateFromLanguage(ocrLanguage);
+            OcrEngine ocrEngine = OcrEngine.TryCreateFromLanguage(_ocrLanguage);
 
             if (ocrEngine == null)
             {
-                NotifyUser(ocrLanguage.DisplayName + " is not supported.", NotifyType.ErrorMessage);
+                NotifyUser(_ocrLanguage.DisplayName + " is not supported.", NotifyType.ErrorMessage);
 
                 return string.Empty;
             }
@@ -754,7 +511,7 @@ namespace VisualTranslator
                     WordOverlay wordBoxOverlay = new WordOverlay(word);
 
                     // Keep references to word boxes.
-                    wordBoxes.Add(wordBoxOverlay);
+                    _wordBoxes.Add(wordBoxOverlay);
 
                     // Define position, background, etc.
                     var overlay = new Border()
@@ -796,7 +553,7 @@ namespace VisualTranslator
                     ScaleY = OCRImageView.ActualHeight / bitmap.PixelHeight
                 };
 
-                foreach (var item in wordBoxes)
+                foreach (var item in _wordBoxes)
                 {
                     item.Transform(scaleTrasform);
                 }
@@ -875,43 +632,65 @@ namespace VisualTranslator
 
             return xmlResponse.InnerText;
         }
+        // GET translatable langue codes
+        private async Task GetLanguagesForTranslate()
+        {
+            // send request to get supported language codes
+            string uri = uriBaseTranslation + "GetLanguagesForTranslate?scope=text";
+            WebRequest request = WebRequest.Create(uri);
+            request.Headers["Ocp-Apim-Subscription-Key"] = accesskeyTL;
+            
+            // read and parse the XML response
+            WebResponse response = await request.GetResponseAsync();
+            using (Stream stream = response.GetResponseStream())
+            {
+                System.Runtime.Serialization.DataContractSerializer dcs =
+                    new System.Runtime.Serialization.DataContractSerializer(typeof(List<string>));
+                List<string> languagesForTranslate = (List<string>)dcs.ReadObject(stream);
+                _languageCodes = languagesForTranslate.ToArray();
+            }
+        }
+        private async Task GetLanguageNames()
+        {
+            // send request to get supported language names in English
+            string uri = uriBaseTranslation + "GetLanguageNames?locale=en";
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
+            request.Headers["Ocp-Apim-Subscription-Key"] = accesskeyTL;
+            request.ContentType = "text/xml";
+            request.Method = "POST";
+            System.Runtime.Serialization.DataContractSerializer dcs =
+                new System.Runtime.Serialization.DataContractSerializer(Type.GetType("System.String[]"));
+            using (Stream stream = await request.GetRequestStreamAsync())
+            {
+                dcs.WriteObject(stream, _languageCodes);
+            }                
+            // read and parse the XML response
+            var response = await request.GetResponseAsync();
+            string[] languageNames;
+            using (Stream stream = response.GetResponseStream())
+            {
+                languageNames = (string[])dcs.ReadObject(stream);
+            }                
+            //load the dictionary for the combo box
+            for (int i = 0; i < languageNames.Length; i++)
+                _languageCodesAndTitles.Add(languageNames[i], _languageCodes[i]);
+        }
+        private void PopulateLanguageMenus()
+        {
+            // Add option to automatically detect the source language
+            FromLanguageComboBox.Items.Add("Detect");
 
-        //private void ProcessTranslationResult(string translationResult)
-        //{
-        //    JObject jObject = JObject.Parse(translationResult);
-        //    IList<JToken> jArray = jObject["value"].Children().ToList();
-        //    List<ImageInfo> imageResourceList = new List<ImageInfo>();
+            int count = _languageCodesAndTitles.Count;
+            foreach (string menuItem in _languageCodesAndTitles.Keys)
+            {
+                FromLanguageComboBox.Items.Add(menuItem);
+                ToLanguageComboBox.Items.Add(menuItem);
+            }
 
-        //    // Retrieve elements from the value
-        //    foreach (JToken t in jArray)
-        //    {
-        //        var thumbnailJObject = (JObject)t["thumbnail"];
-
-        //        var thumbnail = new Thumbnail()
-        //        {
-        //            width = (int)thumbnailJObject["width"],
-        //            height = (int)thumbnailJObject["height"]
-        //        };
-
-        //        var imageResource = new ImageInfo()
-        //        {
-        //            Name = (string)t["name"],
-        //            ThumbnailUrl = (string)t["thumbnailUrl"],
-        //            ContentUrl = (string)t["contentUrl"],
-        //            HostPageUrl = (string)t["hostPageUrl"],
-        //            Width = (int)t["width"],
-        //            Height = (int)t["height"],
-        //            Thumbnail = thumbnail
-        //        };
-
-        //        // Add item into List
-        //        imageResourceList.Add(imageResource);
-        //    }
-
-        //    // Add image resource list to items source
-        //    this.ViewModel = new ImageInfoViewModel(imageResourceList);
-        //    ImageInfoGridView.ItemsSource = ViewModel.ImageInfoCVS;
-        //}
+            // set default languages
+            FromLanguageComboBox.SelectedItem = "Detect";
+            ToLanguageComboBox.SelectedItem = "English";
+        }
 
         #endregion Helper functions
 
@@ -921,17 +700,11 @@ namespace VisualTranslator
         StatusMessage,
         ErrorMessage
     };
-    public static class Extensions
+    public enum CountryCode
     {
-        public static void ForEach<T>(this IEnumerable<T> ie, Action<T> action)
-        {
-            foreach (var i in ie)
-            {
-                action(i);
-            }
-        }
+
     }
-    public class ImageInfo
+    public class ComboBoxItem
     {
         // Auto-Impl Properties for trivial get and set
         public string Name { get; set; }
@@ -945,7 +718,7 @@ namespace VisualTranslator
     }
     public class ImageInfoViewModel
     {
-        private ObservableCollection<ImageInfo> imageInfoCVS = new ObservableCollection<ImageInfo>();
+        private ObservableCollection<ComboBoxItem> imageInfoCVS = new ObservableCollection<ComboBoxItem>();
 
         // Default Constructor
         public ImageInfoViewModel()
@@ -953,7 +726,7 @@ namespace VisualTranslator
             var defaultCount = 40;
             for (int i = 0; i < defaultCount; i++)
             {
-                this.imageInfoCVS.Add(new ImageInfo()
+                this.imageInfoCVS.Add(new ComboBoxItem()
                 {
                     Name = "Default Box",
                     ThumbnailUrl = @"Assets\Square150x150Logo.scale-200.png"
@@ -961,15 +734,15 @@ namespace VisualTranslator
             }
         }
         // Add each imageResource into observable collection
-        public ImageInfoViewModel(List<ImageInfo> imageResourceList)
+        public ImageInfoViewModel(List<ComboBoxItem> imageResourceList)
         {
-            foreach (ImageInfo imageResource in imageResourceList)
+            foreach (ComboBoxItem imageResource in imageResourceList)
             {
                 this.imageInfoCVS.Add(imageResource);
             }
         }
 
-        public ObservableCollection<ImageInfo> ImageInfoCVS { get { return imageInfoCVS; } }
+        public ObservableCollection<ComboBoxItem> ImageInfoCVS { get { return imageInfoCVS; } }
     }
     public class Thumbnail
     {
