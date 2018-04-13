@@ -2,6 +2,6 @@
 /Lib:"C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\obj\x86\Release\ilc\in"
 /Lib:"C:\Program Files (x86)\Microsoft SDKs\NuGetPackagesFallback\microsoft.net.native.compiler\1.7.3\tools\x86\ilc\lib\Private"
 /WinMD:"C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\obj\x86\Release\ilc\in\WinMetadata\Windows.winmd"
-/VSTelemetrySessionSettings:"{"AppId":1001,"AppInsightsInstrumentationKey":"f144292e-e3b2-4011-ac90-20e5c03fbce5","AsimovInstrumentationKey":"AIF-312cbd79-9dbb-4c48-a7da-3cc2a931cb70","HostName":"Dev14","Id":"6e38d71e-9fbb-499b-8803-8504eb28bd38","IsOptedIn":true,"ProcessStartTime":636592157792480703,"UserId":"4239d64a-e6d3-434c-a2bc-0f48b7e11a6c"}"
+/VSTelemetrySessionSettings:"{"AppId":1001,"AppInsightsInstrumentationKey":"f144292e-e3b2-4011-ac90-20e5c03fbce5","AsimovInstrumentationKey":"AIF-312cbd79-9dbb-4c48-a7da-3cc2a931cb70","HostName":"Dev14","Id":"4cdbaa8f-8534-4bf3-95e8-698f3641187d","IsOptedIn":true,"ProcessStartTime":636592214751177629,"UserId":"4239d64a-e6d3-434c-a2bc-0f48b7e11a6c"}"
 /RdXmlPath:"C:\Program Files (x86)\Microsoft SDKs\NuGetPackagesFallback\microsoft.net.native.compiler\1.7.3\tools\LibraryXML"
 /RunOnlyPreDR

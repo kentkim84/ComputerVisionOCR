@@ -11,8 +11,6 @@ To achieve this overall objective, I have defined following phases.
 * Phase 4: Send request of translation
 * Phase 5: Display the result.
 
-
-
 ## Challenges and Constraints
 * Full integration between UI and Logics
 ### Apperances of incorrect fragments of UI
@@ -23,3 +21,29 @@ Since it uses Azure Cognitive services, network connection is required to use.
 * Allow camera and audio permission to interact with this application (minimum requirements).
 * This application is built based on Microsoft Azure Cognitive services (Text Analysis and Translate Text) with free tier, which means after given packets all used, this application may not respond correctly.
 
+## Running the tests
+### Clone
+Create a folder, and move into the folder just created, then use git clone command to download a copy of this project
+```
+$ mkdir folder
+$ cd folder
+$ git clone https://github.com/kentkim84/ComputerVisionOCR.git
+```
+### Download
+Click [Clone or Download](https://github.com/kentkim84/ComputerVisionOCR), then Click 'Download ZIP'
+
+### Test
+Move into the Project folder (VisualTranslator), then run it
+```
+$ Visual Studion project folder/VisualTranslator
+$ run VisualTranslator.sln file
+```
+
+## Authors
+* **Yongjin Kim** - *Initial work* - [Kentkim84](https://github.com/kentkim84)
+
+## References
+* Original Project written by [Damien Costello](damien.costello@gmit.ie)
+* [Microsoft OCR Engine class](https://docs.microsoft.com/en-us/uwp/api/windows.media.ocr.ocrengine)
+* [Microsoft Text Analytics REST API](https://azure.microsoft.com/en-us/services/cognitive-services/text-analytics/)
+* [Microsoft Text Translate REST API](https://azure.microsoft.com/en-us/services/cognitive-services/translator-text-api/)

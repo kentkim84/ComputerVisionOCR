@@ -19,19 +19,19 @@
     <DeployOptionalPackages>false</DeployOptionalPackages>
     <WindowsSdkPath>C:\Program Files %28x86%29\Windows Kits\10\</WindowsSdkPath>
     <LayoutDir>C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Release\AppX</LayoutDir>
-    <RegisteredManifestChecksum>F1973FCA2FD28CD8B041C40445E13AB49683D26E324BEAA9D8F443B921CE16D8</RegisteredManifestChecksum>
-    <RegisteredPackageMoniker>51434kentkim84.VisionTranslator_1.1.0.0_x86__4qs7z7g6v6ww0</RegisteredPackageMoniker>
+    <RegisteredManifestChecksum>735CA8DC6E380928726357EE64D8076916040BD7A440CFB7DFC70200AE960EEC</RegisteredManifestChecksum>
+    <RegisteredPackageMoniker>51434kentkim84.VisionTranslator_1.1.1.0_x86__4qs7z7g6v6ww0</RegisteredPackageMoniker>
     <RegisteredUserModeAppID>51434kentkim84.VisionTranslator_4qs7z7g6v6ww0!App</RegisteredUserModeAppID>
     <RegisteredPackageID>51434kentkim84.VisionTranslator</RegisteredPackageID>
     <RegisteredPackagePublisher>CN=14BA989E-AB4E-4E81-9544-1B36DA526141</RegisteredPackagePublisher>
-    <RegisteredVersion>1.1.0.0</RegisteredVersion>
+    <RegisteredVersion>1.1.1.0</RegisteredVersion>
     <JitOptimizationSuppressed>True</JitOptimizationSuppressed>
   </PropertyGroup>
   <ItemGroup>
     <AppXManifest Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Release\ilc\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2018-04-13T12:50:51.403</Modified>
+      <Modified>2018-04-13T13:19:56.676</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
@@ -296,31 +296,31 @@
     <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Release\ilc\resources.pri">
       <PackagePath>resources.pri</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2018-04-13T12:49:38.021</Modified>
+      <Modified>2018-04-13T13:18:37.464</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Release\ilc\VisualTranslator.dll">
       <PackagePath>VisualTranslator.dll</PackagePath>
-      <Modified>2018-04-13T12:50:50.545</Modified>
+      <Modified>2018-04-13T13:19:55.644</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Release\ilc\VisualTranslator.exe">
       <PackagePath>VisualTranslator.exe</PackagePath>
-      <Modified>2018-04-13T12:50:51.370</Modified>
+      <Modified>2018-04-13T13:19:56.648</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Release\ilc\VisualTranslator.pdb">
       <PackagePath>VisualTranslator.pdb</PackagePath>
-      <Modified>2018-04-13T12:50:51.356</Modified>
+      <Modified>2018-04-13T13:19:56.630</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Release\ilc\_Resources\0.rsrc">
       <PackagePath>_Resources\0.rsrc</PackagePath>
-      <Modified>2018-04-13T12:50:04.409</Modified>
+      <Modified>2018-04-13T13:19:05.655</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Release\ilc\_Resources\1.rsrc">
       <PackagePath>_Resources\1.rsrc</PackagePath>
-      <Modified>2018-04-13T12:50:04.426</Modified>
+      <Modified>2018-04-13T13:19:05.911</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Release\ilc\_Resources\index.txt">
       <PackagePath>_Resources\index.txt</PackagePath>
-      <Modified>2018-04-13T12:50:04.430</Modified>
+      <Modified>2018-04-13T13:19:05.913</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>
