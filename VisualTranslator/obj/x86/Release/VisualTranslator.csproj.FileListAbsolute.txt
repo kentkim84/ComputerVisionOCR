@@ -594,3 +594,4 @@ C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\obj\x86\Releas
 C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\obj\x86\Release\ilc\intermediate\VisualTranslator.McgInterop\PInvoke.g.cs
 C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\obj\x86\Release\ilc\intermediate\VisualTranslator.McgInterop\SafeTypes.g.cs
 C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\obj\x86\Release\ilc\intermediate\VisualTranslator.McgInterop\SharedStubs.g.cs
+C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Release\Upload\VisualTranslator.build.appxrecipe

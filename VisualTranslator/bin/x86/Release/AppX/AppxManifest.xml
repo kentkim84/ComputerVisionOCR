@@ -7,10 +7,10 @@
 
     For more information on package manifest files, see http://go.microsoft.com/fwlink/?LinkID=241727
   -->
-  <Identity Name="83c7ec62-5c9e-40d1-a5bf-aee06c246404" Publisher="CN=kentkim84" Version="1.0.3.0" ProcessorArchitecture="x86" />
-  <mp:PhoneIdentity PhoneProductId="83c7ec62-5c9e-40d1-a5bf-aee06c246404" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="51434kentkim84.VisionTranslator" Publisher="CN=14BA989E-AB4E-4E81-9544-1B36DA526141" Version="1.1.0.0" ProcessorArchitecture="x86" />
+  <mp:PhoneIdentity PhoneProductId="5036fd00-769e-4578-a411-761d12ba9467" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>VisualTranslator</DisplayName>
+    <DisplayName>VisionTranslator</DisplayName>
     <PublisherDisplayName>kentkim84</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -25,11 +25,14 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="VisualTranslator.exe" EntryPoint="VisualTranslator.App">
-      <uap:VisualElements DisplayName="VisualTranslator" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="VisualTranslator" BackgroundColor="transparent">
+      <uap:VisualElements DisplayName="VisionTranslator" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="VisualTranslator" BackgroundColor="transparent">
         <uap:LockScreen Notification="badgeAndTileText" BadgeLogo="Assets\BadgeLogo.png" />
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square310x310Logo="Assets\LargeTile.png" Square71x71Logo="Assets\SmallTile.png">
         </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:InitialRotationPreference>
+          <uap:Rotation Preference="landscape" />
+        </uap:InitialRotationPreference>
       </uap:VisualElements>
     </Application>
   </Applications>

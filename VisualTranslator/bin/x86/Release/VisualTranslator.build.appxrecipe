@@ -8,8 +8,8 @@
     <TargetOsDescription>Windows 10.0</TargetOsDescription>
     <SolutionConfiguration>Release|x86</SolutionConfiguration>
     <PackageArchitecture>x86</PackageArchitecture>
-    <PackageIdentityName>83c7ec62-5c9e-40d1-a5bf-aee06c246404</PackageIdentityName>
-    <PackageIdentityPublisher>CN=kentkim84</PackageIdentityPublisher>
+    <PackageIdentityName>5036fd00-769e-4578-a411-761d12ba9467</PackageIdentityName>
+    <PackageIdentityPublisher>CN=14BA989E-AB4E-4E81-9544-1B36DA526141</PackageIdentityPublisher>
     <IntermediateOutputPath>C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\obj\x86\Release\</IntermediateOutputPath>
     <RemoteDeploymentType></RemoteDeploymentType>
     <PackageRegistrationPath></PackageRegistrationPath>

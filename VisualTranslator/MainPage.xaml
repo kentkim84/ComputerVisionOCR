@@ -39,26 +39,6 @@
         </Style>
     </Page.Resources>
     
-    <Page.TopAppBar>
-        <!--Command-Bar Control-->
-        <CommandBar 
-            HorizontalAlignment="Right"  
-            HorizontalContentAlignment="Left"
-            VerticalContentAlignment="Center">
-            <CommandBar.Content>
-                <TextBlock 
-                    Text="Similar Image Search Application"                    
-                    Margin="15,0,0,0"
-                    Height="48"
-                    Style="{ThemeResource TitleTextBlockStyle}"/>
-            </CommandBar.Content>
-            <!--<AppBarButton x:Name="cameraButton" Icon="Camera" Label="Camera" Tapped="CameraButton_Tapped"/>
-            <AppBarButton x:Name="fileButton" Icon="OpenFile" Label="Open File" Tapped="FileButton_Tapped"/>
-            <AppBarButton x:Name="processConfirmButton" Icon="Accept" Label="Accept" Tapped="processConfirmButton_Tapped" Visibility="Collapsed"/>
-            <AppBarButton x:Name="processCancelButton" Icon="Cancel" Label="Calcel" Tapped="processCancelButton_Tapped" Visibility="Collapsed"/>-->
-        </CommandBar>
-    </Page.TopAppBar>
-
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <!--Grid initialisation-->
         <Grid.RowDefinitions>

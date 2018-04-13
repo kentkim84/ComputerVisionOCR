@@ -10,10 +10,10 @@
     <SplashScreenSource>C:\Users\kentkim84\Pictures\visioncal.jpg</SplashScreenSource>
     <BadgeLogoSource>C:\Users\kentkim84\Pictures\visioncal.jpg</BadgeLogoSource>
     <PackageLogoSource>C:\Users\kentkim84\Pictures\visioncal.jpg</PackageLogoSource>
-    <AppxPackageIsForStore>False</AppxPackageIsForStore>
+    <AppxPackageIsForStore>True</AppxPackageIsForStore>
     <AppxShowAllApps>False</AppxShowAllApps>
     <AppxBuildConfigurationSelection>x86</AppxBuildConfigurationSelection>
-    <PackageOptionalProjectsInIdeBuilds>False</PackageOptionalProjectsInIdeBuilds>
+    <PackageOptionalProjectsInIdeBuilds>True</PackageOptionalProjectsInIdeBuilds>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DeviceId>30F105C9-681E-420b-A277-7C086EAD8A4E</DeviceId>
