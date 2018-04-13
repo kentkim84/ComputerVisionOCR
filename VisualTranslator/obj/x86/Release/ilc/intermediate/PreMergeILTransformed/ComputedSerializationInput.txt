@@ -1,0 +1,2 @@
+"/t:System.Collections.Generic.List`1[[System.String,System.Runtime]],mscorlib,dcs"
+"/t:System.String[],System.Runtime,dcs"

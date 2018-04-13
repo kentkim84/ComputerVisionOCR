@@ -136,9 +136,9 @@
                     <Border x:Name="StatusBorder" Margin="5">
                         <ScrollViewer VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto">
                             <TextBlock 
-                                x:Name="StatusBlock" FontWeight="Bold" 
-                                MaxWidth="{Binding ElementName=OCRControlPanel, Path=ActualWidth}" 
-                                Margin="10,10,10,20" TextWrapping="Wrap"/>
+                                x:Name="StatusBlock" FontWeight="Bold" FontSize="25"
+                                MaxWidth="{Binding ElementName=ViewPanel, Path=ActualWidth}" 
+                                HorizontalAlignment="Center" Margin="0,5" TextWrapping="Wrap"/>
                         </ScrollViewer>
                     </Border>
                 </StackPanel>
@@ -181,10 +181,10 @@
                     Grid.Row="1" Grid.ColumnSpan="2"
                     Margin="20" MaxHeight="600">
                     <Image x:Name="OCRImageView" Stretch="Uniform" SizeChanged="PreviewImage_SizeChanged"/>
-                    <Grid x:Name="OCRTextOverlay" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Grid x:Name="OCRTextOverlay" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 </Grid>
-                
-                <StackPanel Grid.Row="2" Grid.Column="0">
+
+                <StackPanel x:Name="Spliter1" Grid.Row="2" Grid.Column="0">
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                         <TextBlock 
                             Text="Translate From :" FontWeight="SemiBold" 
@@ -195,12 +195,14 @@
                             VerticalAlignment="Center"
                             FontSize="14" TabIndex="2" Margin="15,5,0,5"/>
                     </StackPanel>
-                    <ScrollViewer VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto">
-                        <TextBlock x:Name="OriginalTextBlock" FontWeight="SemiLight" 
-                        MaxWidth="{Binding ElementName=OCRControlPanel, Path=ActualWidth}" Margin="10,10,10,20" TextWrapping="Wrap"  />
+                    <ScrollViewer Height="100" VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto">
+                        <TextBlock 
+                            x:Name="OriginalTextBlock" FontWeight="SemiLight"
+                            MaxWidth="{Binding ElementName=Spliter1, Path=ActualWidth}"
+                            Margin="10,10,10,20" TextWrapping="Wrap"/>
                     </ScrollViewer>
                 </StackPanel>
-                <StackPanel Grid.Row="2" Grid.Column="1">
+                <StackPanel x:Name="Spliter2" Grid.Row="2" Grid.Column="1">
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                         <TextBlock 
                             Text="Translate To :" FontWeight="SemiBold" 
@@ -211,9 +213,11 @@
                             VerticalAlignment="Center"
                             FontSize="14" TabIndex="2" Margin="15,5,0,5"/>
                     </StackPanel>
-                    <ScrollViewer VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto">
-                        <TextBlock x:Name="TranslatedTextBlock" FontWeight="SemiLight" 
-                                MaxWidth="{Binding ElementName=OCRControlPanel, Path=ActualWidth}" Margin="10,10,10,20" TextWrapping="Wrap"  />
+                    <ScrollViewer Height="100" VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto">
+                        <TextBlock 
+                            x:Name="TranslatedTextBlock" FontWeight="SemiLight"
+                            MaxWidth="{Binding ElementName=Spliter2, Path=ActualWidth}"
+                            Margin="10,10,10,20" TextWrapping="Wrap"/>
                     </ScrollViewer>
                 </StackPanel>
                 
@@ -221,38 +225,33 @@
         </StackPanel>
         
         <!--Loading page effect-->
-        <StackPanel 
+        <Grid 
             x:Name="ProgressControlPanel"            
             Grid.RowSpan="2" Grid.Column="1"            
             Visibility="Collapsed">
             <!--Progress and Message-->
             <StackPanel
                 x:Name="ProgressBackground"
-                Opacity="0.4"
-                Background="SlateGray"/>
-            <Grid 
-                x:Name="ProgressControlGrid"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center">
-                <StackPanel                 
+                Opacity="0.4"                
+                Background="LightSlateGray"/>
+            <StackPanel                 
                     Padding="15"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Background="White"
                     Orientation="Horizontal">
-                    <ProgressRing 
+                <ProgressRing 
                         x:Name="ProgresRing"                    
                         IsActive="False"
-                        Height="100" Width="100"/>
-                    <TextBlock                    
+                        Height="50" Width="50"/>
+                <TextBlock                    
                         x:Name="ProgressMessage"
                         Style="{StaticResource BodyTextBlockStyle}"
                         VerticalAlignment="Center"
                         Padding="10,0,0,0"
                         FontSize="20"
                         Text="Analysing..."/>
-                </StackPanel>
-            </Grid>
-        </StackPanel>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>

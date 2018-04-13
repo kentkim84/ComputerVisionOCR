@@ -1,0 +1,6 @@
+MainPackage=C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\ARM\Debug\VisualTranslator_1.0.3.0_ARM_Debug.appx
+SymbolPackage=C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\AppPackages\VisualTranslator_1.0.3.0_Debug_Test\VisualTranslator_1.0.3.0_ARM_Debug.appxsym
+ResourcePack=C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\ARM\Debug\VisualTranslator_1.0.3.0_scale-100.appx
+ResourcePack=C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\ARM\Debug\VisualTranslator_1.0.3.0_scale-125.appx
+ResourcePack=C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\ARM\Debug\VisualTranslator_1.0.3.0_scale-150.appx
+ResourcePack=C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\ARM\Debug\VisualTranslator_1.0.3.0_scale-400.appx

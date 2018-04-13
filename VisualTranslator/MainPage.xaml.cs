@@ -110,11 +110,14 @@ namespace VisualTranslator
             {
                 NotifyUser(_ocrLanguage.DisplayName + " is not supported.", NotifyType.ErrorMessage);
                 return;
-            }            
+            }
+                           
             await InitialiseCameraAsync();
+            NotifyUser("Prepare Supporting Languages...", NotifyType.ReadyMessage);
             await GetLanguagesForTranslate(); // Get codes of languages that can be translated
             await GetLanguageNames(); // Get friendly names of languages
             PopulateLanguageMenus(); // Fill the drop-down language lists
+            NotifyUser("Camera Initialised.", NotifyType.StatusMessage);
         }
 
         #endregion Constructor, lifecycle and navigation
@@ -161,22 +164,18 @@ namespace VisualTranslator
                 await CaptureImageAsync();
             }
 
-            // Before request start, show progress ring                                                
-            ProgressBackground.Width = OCRControlPanel.ActualWidth;
-            ProgressBackground.Height = OCRControlPanel.ActualHeight;
-            ProgressControlGrid.Width = OCRControlPanel.ActualWidth;
-            ProgressControlGrid.Height = OCRControlPanel.ActualHeight;
+            // Before request start, show progress ring
+            ProgressControlPanel.Visibility = Visibility.Visible;
             ProgresRing.IsActive = true;
-            ProgressControlPanel.Visibility = Visibility.Visible;            
-
+                  
             // Start managing bitmap image source         
             var ocrResult = await ProcessOCRAsync(_softwareBitmap);
             await ProcessTranslationAsync(ocrResult);
-            
-            // Change/Update visibility                        
-            ProgresRing.IsActive = false;
-            ProgressControlPanel.Visibility = Visibility.Collapsed;
 
+            // Change/Update visibility                        
+            ProgressControlPanel.Visibility = Visibility.Collapsed;
+            ProgresRing.IsActive = false;
+            
             // Visibility change
             ImagePreview.Visibility = Visibility.Collapsed;
             ImageView.Visibility = Visibility.Visible;
@@ -282,11 +281,8 @@ namespace VisualTranslator
 
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    // Cleanup the UI
-                    OCRTextOverlay.Children.Clear();
-                    _wordBoxes.Clear();
-                    ImagePreview.Source = null;
-                    OCRImageView.Source = null;
+                    // Cleanup the UI                    
+                    ImagePreview.Source = null;                    
 
                     if (_displayRequest != null)
                     {
@@ -307,6 +303,12 @@ namespace VisualTranslator
                 _softwareBitmap.Dispose();
                 _softwareBitmap = null;
             }
+
+            OCRTextOverlay.Children.Clear();
+            _wordBoxes.Clear();
+            OCRImageView.Source = null;
+            OriginalTextBlock.Text = string.Empty;
+            TranslatedTextBlock.Text = string.Empty;
         }
         private async Task CaptureImageAsync()
         {
@@ -419,6 +421,11 @@ namespace VisualTranslator
         }
         private async Task ProcessTranslationAsync(string ocrResult)
         {
+            if (ocrResult == null || ocrResult.Length == 0)
+            {
+                NotifyUser("The source image could not be detected automatically or is not supported for translation.", NotifyType.ErrorMessage);
+                return;
+            }
             string textToTranslate = ocrResult.Trim();
             // Get from language from the combobox
             var fromLanguage = FromLanguageComboBox.SelectedValue.ToString();
@@ -577,8 +584,11 @@ namespace VisualTranslator
         {
             switch (type)
             {
+                case NotifyType.ReadyMessage:
+                    StatusBorder.Background = new SolidColorBrush(Windows.UI.Colors.LightGreen);
+                    break;
                 case NotifyType.StatusMessage:
-                    StatusBorder.Background = new SolidColorBrush(Windows.UI.Colors.Green);
+                    StatusBorder.Background = new SolidColorBrush(Windows.UI.Colors.LightBlue);
                     break;
                 case NotifyType.ErrorMessage:
                     StatusBorder.Background = new SolidColorBrush(Windows.UI.Colors.Red);
@@ -681,6 +691,7 @@ namespace VisualTranslator
     }
     public enum NotifyType
     {
+        ReadyMessage,
         StatusMessage,
         ErrorMessage
     };

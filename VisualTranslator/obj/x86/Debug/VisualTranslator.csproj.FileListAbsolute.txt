@@ -231,3 +231,4 @@ C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\obj\x86\Debug\
 C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\obj\x86\Debug\VisualTranslator.csproj.GenerateResource.Cache
 C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\obj\x86\Debug\resources.en.resfiles
 C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\obj\x86\Debug\resources.en.resfiles.intermediate
+C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Debug\Core\ForBundle\AppxManifest.xml
