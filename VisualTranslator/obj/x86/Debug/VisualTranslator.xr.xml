@@ -27,7 +27,6 @@
       <RootProperty Name="TextAlignment" />
       <RootProperty Name="Text" />
       <RootProperty Name="Margin" />
-      <RootProperty Name="Height" />
       <RootProperty Name="Style" />
       <RootProperty Name="VerticalAlignment" />
       <RootProperty Name="Padding" />
@@ -37,11 +36,7 @@
       <RootProperty Name="MaxWidth" />
       <RootProperty Name="TextWrapping" />
     </RootType>
-    <RootType FullName="Windows.UI.Xaml.Controls.Button">
-      <RootProperty Name="Style" />
-      <RootProperty Name="Content" />
-      <RootEvent Name="Tapped" />
-    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.Button" />
     <RootType FullName="Windows.UI.Xaml.Controls.Control">
       <RootProperty Name="Foreground" />
       <RootProperty Name="BorderBrush" />
@@ -60,8 +55,14 @@
       <RootProperty Name="HorizontalContentAlignment" />
       <RootProperty Name="VerticalContentAlignment" />
       <RootProperty Name="Content" />
+      <RootProperty Name="PrimaryCommands" />
     </RootType>
     <RootType FullName="Microsoft.Xaml.DirectUI.ProxyTypes.ThemeResourceExtension" />
+    <RootType FullName="Windows.UI.Xaml.Controls.AppBarButton">
+      <RootProperty Name="Icon" />
+      <RootProperty Name="Label" />
+      <RootEvent Name="Tapped" />
+    </RootType>
     <RootType FullName="Windows.UI.Xaml.Controls.Grid">
       <RootProperty Name="Background" />
       <RootProperty Name="RowDefinitions" />
@@ -72,14 +73,14 @@
       <RootProperty Name="VerticalAlignment" />
       <RootProperty Name="Margin" />
       <RootProperty Name="MaxHeight" />
-      <RootMethod Name="GetRowSpan" />
-      <RootMethod Name="SetRowSpan" />
-      <RootMethod Name="GetColumn" />
-      <RootMethod Name="SetColumn" />
       <RootMethod Name="GetRow" />
       <RootMethod Name="SetRow" />
       <RootMethod Name="GetColumnSpan" />
       <RootMethod Name="SetColumnSpan" />
+      <RootMethod Name="GetColumn" />
+      <RootMethod Name="SetColumn" />
+      <RootMethod Name="GetRowSpan" />
+      <RootMethod Name="SetRowSpan" />
     </RootType>
     <RootType FullName="Windows.UI.Xaml.Controls.RowDefinition">
       <RootProperty Name="Height" />
@@ -102,10 +103,14 @@
       <RootProperty Name="Width" />
     </RootType>
     <RootType FullName="Windows.UI.Xaml.Controls.ScrollViewer">
-      <RootProperty Name="Height" />
       <RootProperty Name="VerticalScrollMode" />
       <RootProperty Name="VerticalScrollBarVisibility" />
       <RootProperty Name="Content" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.TextBox">
+      <RootProperty Name="FontWeight" />
+      <RootProperty Name="MaxWidth" />
+      <RootProperty Name="TextWrapping" />
     </RootType>
     <RootType FullName="Windows.UI.Xaml.Data.Binding">
       <RootProperty Name="ElementName" />
@@ -122,14 +127,6 @@
       <RootProperty Name="Stretch" />
       <RootProperty Name="Visibility" />
       <RootEvent Name="SizeChanged" />
-    </RootType>
-    <RootType FullName="Windows.UI.Xaml.Controls.Viewbox">
-      <RootProperty Name="MaxWidth" />
-      <RootProperty Name="MaxHeight" />
-      <RootProperty Name="Child" />
-    </RootType>
-    <RootType FullName="Windows.UI.Xaml.Controls.SymbolIcon">
-      <RootProperty Name="Symbol" />
     </RootType>
     <RootType FullName="Windows.UI.Xaml.Controls.CaptureElement">
       <RootProperty Name="Stretch" />

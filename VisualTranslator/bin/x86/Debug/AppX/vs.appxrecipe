@@ -8,8 +8,8 @@
     <TargetOsDescription>Windows 10.0</TargetOsDescription>
     <SolutionConfiguration>Debug|x86</SolutionConfiguration>
     <PackageArchitecture>x86</PackageArchitecture>
-    <PackageIdentityName>83c7ec62-5c9e-40d1-a5bf-aee06c246404</PackageIdentityName>
-    <PackageIdentityPublisher>CN=kentkim84</PackageIdentityPublisher>
+    <PackageIdentityName>5036fd00-769e-4578-a411-761d12ba9467</PackageIdentityName>
+    <PackageIdentityPublisher>CN=14BA989E-AB4E-4E81-9544-1B36DA526141</PackageIdentityPublisher>
     <IntermediateOutputPath>C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\obj\x86\Debug\</IntermediateOutputPath>
     <RemoteDeploymentType>
     </RemoteDeploymentType>
@@ -19,25 +19,25 @@
     <DeployOptionalPackages>false</DeployOptionalPackages>
     <WindowsSdkPath>C:\Program Files %28x86%29\Windows Kits\10\</WindowsSdkPath>
     <LayoutDir>C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Debug\AppX</LayoutDir>
-    <RegisteredManifestChecksum>3B7E7EDFE3DE9D0F20A926C27361EF9789202335E2E5414654F4C4C15FCE92FC</RegisteredManifestChecksum>
-    <RegisteredPackageMoniker>83c7ec62-5c9e-40d1-a5bf-aee06c246404_1.0.0.0_x86__vbjtwpe0zjs70</RegisteredPackageMoniker>
-    <RegisteredUserModeAppID>83c7ec62-5c9e-40d1-a5bf-aee06c246404_vbjtwpe0zjs70!App</RegisteredUserModeAppID>
-    <RegisteredPackageID>83c7ec62-5c9e-40d1-a5bf-aee06c246404</RegisteredPackageID>
-    <RegisteredPackagePublisher>CN=kentkim84</RegisteredPackagePublisher>
-    <RegisteredVersion>1.0.0.0</RegisteredVersion>
+    <RegisteredManifestChecksum>AAA167D3EB05F3E1DCB5725FDC865FD23B7B801A70901090562E00AB4E403396</RegisteredManifestChecksum>
+    <RegisteredPackageMoniker>51434kentkim84.VisionTranslator_1.1.2.0_x86__4qs7z7g6v6ww0</RegisteredPackageMoniker>
+    <RegisteredUserModeAppID>51434kentkim84.VisionTranslator_4qs7z7g6v6ww0!App</RegisteredUserModeAppID>
+    <RegisteredPackageID>51434kentkim84.VisionTranslator</RegisteredPackageID>
+    <RegisteredPackagePublisher>CN=14BA989E-AB4E-4E81-9544-1B36DA526141</RegisteredPackagePublisher>
+    <RegisteredVersion>1.1.2.0</RegisteredVersion>
     <JitOptimizationSuppressed>True</JitOptimizationSuppressed>
   </PropertyGroup>
   <ItemGroup>
     <AppXManifest Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2018-04-13T00:54:14.649</Modified>
+      <Modified>2018-04-23T17:50:31.315</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Debug\VisualTranslator.exe">
       <PackagePath>entrypoint\VisualTranslator.exe</PackagePath>
-      <Modified>2018-04-13T00:54:13.665</Modified>
+      <Modified>2018-04-23T17:50:30.465</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\kentkim84\.nuget\packages\microsoft.azure.cognitiveservices.language\1.0.0-preview\lib\netstandard1.4\Microsoft.Azure.CognitiveServices.Language.dll">
       <PackagePath>Microsoft.Azure.CognitiveServices.Language.dll</PackagePath>
@@ -531,47 +531,267 @@
       <PackagePath>System.Xml.XmlSerializer.dll</PackagePath>
       <Modified>2016-06-11T22:15:04.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Properties\Default.rd.xml">
-      <PackagePath>Properties\Default.rd.xml</PackagePath>
-      <Modified>2018-04-11T21:02:50.858</Modified>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\BadgeLogo.scale-100.png">
+      <PackagePath>Assets\BadgeLogo.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:30.359</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\BadgeLogo.scale-125.png">
+      <PackagePath>Assets\BadgeLogo.scale-125.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:30.376</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\BadgeLogo.scale-150.png">
+      <PackagePath>Assets\BadgeLogo.scale-150.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:30.396</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\BadgeLogo.scale-200.png">
+      <PackagePath>Assets\BadgeLogo.scale-200.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:30.429</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\BadgeLogo.scale-400.png">
+      <PackagePath>Assets\BadgeLogo.scale-400.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:30.461</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\LargeTile.scale-100.png">
+      <PackagePath>Assets\LargeTile.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:29.090</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\LargeTile.scale-125.png">
+      <PackagePath>Assets\LargeTile.scale-125.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:29.119</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\LargeTile.scale-150.png">
+      <PackagePath>Assets\LargeTile.scale-150.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:29.157</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\LargeTile.scale-200.png">
+      <PackagePath>Assets\LargeTile.scale-200.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:29.226</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\LargeTile.scale-400.png">
+      <PackagePath>Assets\LargeTile.scale-400.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:29.451</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\LockScreenLogo.scale-200.png">
       <PackagePath>Assets\LockScreenLogo.scale-200.png</PackagePath>
-      <Modified>2018-03-13T22:09:58.501</Modified>
+      <Modified>2018-04-10T10:23:02.246</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\SmallTile.scale-100.png">
+      <PackagePath>Assets\SmallTile.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:28.651</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\SmallTile.scale-125.png">
+      <PackagePath>Assets\SmallTile.scale-125.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:28.662</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\SmallTile.scale-150.png">
+      <PackagePath>Assets\SmallTile.scale-150.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:28.679</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\SmallTile.scale-200.png">
+      <PackagePath>Assets\SmallTile.scale-200.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:28.694</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\SmallTile.scale-400.png">
+      <PackagePath>Assets\SmallTile.scale-400.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:28.722</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\SplashScreen.scale-100.png">
+      <PackagePath>Assets\SplashScreen.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:29.653</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\SplashScreen.scale-125.png">
+      <PackagePath>Assets\SplashScreen.scale-125.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:29.702</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\SplashScreen.scale-150.png">
+      <PackagePath>Assets\SplashScreen.scale-150.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:29.763</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\SplashScreen.scale-200.png">
       <PackagePath>Assets\SplashScreen.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2018-03-13T22:09:58.501</Modified>
+      <Modified>2018-04-13T01:52:29.903</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\SplashScreen.scale-400.png">
+      <PackagePath>Assets\SplashScreen.scale-400.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:30.327</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\Square150x150Logo.scale-100.png">
+      <PackagePath>Assets\Square150x150Logo.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:28.738</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\Square150x150Logo.scale-125.png">
+      <PackagePath>Assets\Square150x150Logo.scale-125.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:28.754</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\Square150x150Logo.scale-150.png">
+      <PackagePath>Assets\Square150x150Logo.scale-150.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:28.784</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\Square150x150Logo.scale-200.png">
       <PackagePath>Assets\Square150x150Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2018-03-13T22:09:58.501</Modified>
+      <Modified>2018-04-13T01:52:28.810</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\Square150x150Logo.scale-400.png">
+      <PackagePath>Assets\Square150x150Logo.scale-400.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:28.873</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\Square44x44Logo.altform-unplated_targetsize-16.png">
+      <PackagePath>Assets\Square44x44Logo.altform-unplated_targetsize-16.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:29.567</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\Square44x44Logo.altform-unplated_targetsize-256.png">
+      <PackagePath>Assets\Square44x44Logo.altform-unplated_targetsize-256.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:29.620</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\Square44x44Logo.altform-unplated_targetsize-32.png">
+      <PackagePath>Assets\Square44x44Logo.altform-unplated_targetsize-32.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:29.585</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\Square44x44Logo.altform-unplated_targetsize-48.png">
+      <PackagePath>Assets\Square44x44Logo.altform-unplated_targetsize-48.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:29.594</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\Square44x44Logo.scale-100.png">
+      <PackagePath>Assets\Square44x44Logo.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:29.460</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\Square44x44Logo.scale-125.png">
+      <PackagePath>Assets\Square44x44Logo.scale-125.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:29.470</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\Square44x44Logo.scale-150.png">
+      <PackagePath>Assets\Square44x44Logo.scale-150.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:29.479</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\Square44x44Logo.scale-200.png">
       <PackagePath>Assets\Square44x44Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2018-03-13T22:09:58.501</Modified>
+      <Modified>2018-04-13T01:52:29.490</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\Square44x44Logo.scale-400.png">
+      <PackagePath>Assets\Square44x44Logo.scale-400.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:29.504</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\Square44x44Logo.targetsize-16.png">
+      <PackagePath>Assets\Square44x44Logo.targetsize-16.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:29.513</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\Square44x44Logo.targetsize-24.png">
+      <PackagePath>Assets\Square44x44Logo.targetsize-24.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:29.522</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-24_altform-unplated.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2018-03-13T22:09:58.501</Modified>
+      <Modified>2018-04-13T01:52:29.576</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\StoreLogo.png">
-      <PackagePath>Assets\StoreLogo.png</PackagePath>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\Square44x44Logo.targetsize-256.png">
+      <PackagePath>Assets\Square44x44Logo.targetsize-256.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2018-03-13T22:09:58.501</Modified>
+      <Modified>2018-04-13T01:52:29.558</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\Square44x44Logo.targetsize-32.png">
+      <PackagePath>Assets\Square44x44Logo.targetsize-32.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:29.530</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\Square44x44Logo.targetsize-48.png">
+      <PackagePath>Assets\Square44x44Logo.targetsize-48.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:29.539</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\StoreLogo.scale-100.png">
+      <PackagePath>Assets\StoreLogo.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:30.478</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\StoreLogo.scale-125.png">
+      <PackagePath>Assets\StoreLogo.scale-125.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:30.493</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\StoreLogo.scale-150.png">
+      <PackagePath>Assets\StoreLogo.scale-150.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:30.507</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\StoreLogo.scale-200.png">
+      <PackagePath>Assets\StoreLogo.scale-200.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:30.523</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\StoreLogo.scale-400.png">
+      <PackagePath>Assets\StoreLogo.scale-400.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:30.564</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\Wide310x150Logo.scale-100.png">
+      <PackagePath>Assets\Wide310x150Logo.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:28.893</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\Wide310x150Logo.scale-125.png">
+      <PackagePath>Assets\Wide310x150Logo.scale-125.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:28.915</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\Wide310x150Logo.scale-150.png">
+      <PackagePath>Assets\Wide310x150Logo.scale-150.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:28.940</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\Wide310x150Logo.scale-200.png">
       <PackagePath>Assets\Wide310x150Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2018-03-13T22:09:58.501</Modified>
+      <Modified>2018-04-13T01:52:28.973</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Assets\Wide310x150Logo.scale-400.png">
+      <PackagePath>Assets\Wide310x150Logo.scale-400.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2018-04-13T01:52:29.067</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\Properties\Default.rd.xml">
+      <PackagePath>Properties\Default.rd.xml</PackagePath>
+      <Modified>2018-04-11T21:02:50.858</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Debug\VisualTranslator.xr.xml">
       <PackagePath>VisualTranslator.xr.xml</PackagePath>
-      <Modified>2018-04-13T00:49:53.441</Modified>
+      <Modified>2018-04-23T17:47:56.031</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.16299.0\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
@@ -580,11 +800,11 @@
     <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2018-04-13T00:54:14.406</Modified>
+      <Modified>2018-04-23T17:50:31.040</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\kentkim84\source\repos\VisualTranslator\VisualTranslator\bin\x86\Debug\Core\VisualTranslator.exe">
       <PackagePath>VisualTranslator.exe</PackagePath>
-      <Modified>2018-04-13T00:54:14.644</Modified>
+      <Modified>2018-04-23T17:50:31.310</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

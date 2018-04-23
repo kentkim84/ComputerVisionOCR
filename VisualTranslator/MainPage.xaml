@@ -38,8 +38,26 @@
             <Setter Property="BorderBrush" Value="White"/>
         </Style>
     </Page.Resources>
-    
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.TopAppBar>
+        <!--Command-Bar Control-->
+        <CommandBar 
+            HorizontalAlignment="Right"  
+            HorizontalContentAlignment="Left"
+            VerticalContentAlignment="Center">
+            <CommandBar.Content>
+                <TextBlock 
+                    Text="Visual Translator"                    
+                    Margin="15,0,0,0"
+                    Style="{ThemeResource TitleTextBlockStyle}"/>
+            </CommandBar.Content>
+            <AppBarButton x:Name="PreviewMediaButton" Icon="Camera" Label="Preview" Tapped="PreviewMediaButton_Tapped"/>
+            <AppBarButton x:Name="OpenFileButton" Icon="OpenFile" Label="Open File" Tapped="OpenFileButton_Tapped"/>
+            <AppBarButton x:Name="QueryImageButton" Icon="Character" Label="Translate" Tapped="QueryImageButton_Tapped"/>
+        </CommandBar>
+    </Page.TopAppBar>
+
+    <Grid x:Name="RootGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <!--Grid initialisation-->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -50,23 +68,27 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
+            <Border x:Name="StatusBorder" Margin="5">
+                <ScrollViewer VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto">
+                    <TextBlock 
+                        x:Name="StatusBlock" FontWeight="Bold" FontSize="20"
+                        MaxWidth="{Binding ElementName=RootGrid, Path=ActualWidth}" 
+                        HorizontalAlignment="Center" Margin="0,5" TextWrapping="Wrap"/>
+                </ScrollViewer>
+            </Border>
+        </StackPanel>
+
         <!--View Control-->
         <StackPanel 
-            x:Name="ViewPanel" 
-            Grid.RowSpan="2" Grid.Column="0">
+            x:Name="ViewPanel" Grid.Row="0" Grid.Column="0">
             <!--Camera Control-->
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
 
                 <TextBlock 
                     Text="Sample Image" 
@@ -75,96 +97,16 @@
                     Margin="10"    
                     FontWeight="Bold"
                     FontSize="25"
-                    Grid.Row="0" Grid.ColumnSpan="3"/>
+                    Grid.Row="0"/>
                 <!--Image Preview-->
                 <Grid
                     HorizontalAlignment="Center" VerticalAlignment="Center"
-                    Grid.Row="1" Grid.ColumnSpan="3" Margin="20" MaxHeight="600">
+                    Grid.Row="1" Margin="20" MaxHeight="500">
                     <CaptureElement x:Name="ImagePreview" Stretch="Uniform"/>
                     <Image x:Name="ImageView" Stretch="Uniform" Visibility="Collapsed"/>
                 </Grid>
-                <!--Button Group Control-->
-                <StackPanel 
-                    HorizontalAlignment="Center" Orientation="Horizontal"                                     
-                    Grid.Row="2" Grid.ColumnSpan="3">
-                    <Button 
-                        x:Name="PreviewMediaButton" 
-                        Style="{StaticResource TextBlockButtonStyle}"                    
-                        Tapped="PreviewMediaButton_Tapped">
-                        <Viewbox MaxWidth="30" MaxHeight="30">
-                            <SymbolIcon Symbol="Camera"/>
-                        </Viewbox>
-                    </Button>
-                    <Button 
-                        x:Name="OpenFileButton" 
-                        Style="{StaticResource TextBlockButtonStyle}"                    
-                        Tapped="OpenFileButton_Tapped">
-                        <Viewbox MaxWidth="30" MaxHeight="30">
-                            <SymbolIcon Symbol="OpenFile"/>
-                        </Viewbox>
-                    </Button>
-                    <Button 
-                        x:Name="QueryImageButton" 
-                        Style="{StaticResource TextBlockButtonStyle}"                    
-                        Tapped="QueryImageButton_Tapped">
-                        <Viewbox MaxWidth="30" MaxHeight="30">
-                            <SymbolIcon Symbol="BrowsePhotos"/>
-                        </Viewbox>
-                    </Button>
-                </StackPanel>
-                <StackPanel Grid.Row="3" Grid.ColumnSpan="3">
-                    <Border x:Name="StatusBorder" Margin="5">
-                        <ScrollViewer VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto">
-                            <TextBlock 
-                                x:Name="StatusBlock" FontWeight="Bold" FontSize="25"
-                                MaxWidth="{Binding ElementName=ViewPanel, Path=ActualWidth}" 
-                                HorizontalAlignment="Center" Margin="0,5" TextWrapping="Wrap"/>
-                        </ScrollViewer>
-                    </Border>
-                </StackPanel>
 
-            </Grid>
-        </StackPanel>
-
-        <!--Base Image Info and Search Result Info-->
-        <StackPanel Grid.Row="1" Grid.Column="0">
-
-        </StackPanel>
-
-        <!--OCR Result and TextBlock at bottom-->
-        <StackPanel
-            x:Name="OCRControlPanel"            
-            Grid.Row="0" Grid.RowSpan="2" Grid.Column="1">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <TextBlock 
-                    Text="Text Overlay" 
-                    Style="{StaticResource TitleTextBlockStyle}"
-                    HorizontalAlignment="Center" 
-                    Margin="10" 
-                    FontWeight="Bold"
-                    FontSize="25"
-                    Grid.Row="0" Grid.ColumnSpan="2"/>
-                
-                <!--OCR Image View-->
-                <Grid                     
-                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                    Grid.Row="1" Grid.ColumnSpan="2"
-                    Margin="20" MaxHeight="600">
-                    <Image x:Name="OCRImageView" Stretch="Uniform" SizeChanged="PreviewImage_SizeChanged"/>
-                    <Grid x:Name="OCRTextOverlay" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                </Grid>
-
-                <StackPanel x:Name="Spliter1" Grid.Row="2" Grid.Column="0">
+                <StackPanel x:Name="Spliter1" Grid.Row="2">
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                         <TextBlock 
                             Text="Translate From :" FontWeight="SemiBold" 
@@ -175,14 +117,45 @@
                             VerticalAlignment="Center"
                             FontSize="14" TabIndex="2" Margin="15,5,0,5"/>
                     </StackPanel>
-                    <ScrollViewer Height="100" VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto">
-                        <TextBlock 
+                    <ScrollViewer VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto">
+                        <TextBox 
                             x:Name="OriginalTextBlock" FontWeight="SemiLight"
                             MaxWidth="{Binding ElementName=Spliter1, Path=ActualWidth}"
-                            Margin="10,10,10,20" TextWrapping="Wrap"/>
+                            TextWrapping="Wrap"/>
                     </ScrollViewer>
                 </StackPanel>
-                <StackPanel x:Name="Spliter2" Grid.Row="2" Grid.Column="1">
+
+            </Grid>
+        </StackPanel>
+
+        <!--OCR Result and TextBlock at bottom-->
+        <StackPanel
+            x:Name="OCRControlPanel" Grid.Row="0" Grid.Column="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock 
+                    Text="Text Overlay" 
+                    Style="{StaticResource TitleTextBlockStyle}"
+                    HorizontalAlignment="Center" 
+                    Margin="10" 
+                    FontWeight="Bold"
+                    FontSize="25"
+                    Grid.Row="0"/>
+
+                <!--OCR Image View-->
+                <Grid                     
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Grid.Row="1" Margin="20" MaxHeight="500">
+                    <Image x:Name="OCRImageView" Stretch="Uniform" SizeChanged="PreviewImage_SizeChanged"/>
+                    <Grid x:Name="OCRTextOverlay" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                </Grid>
+                
+                <StackPanel x:Name="Spliter2" Grid.Row="2">
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                         <TextBlock 
                             Text="Translate To :" FontWeight="SemiBold" 
@@ -193,11 +166,11 @@
                             VerticalAlignment="Center"
                             FontSize="14" TabIndex="2" Margin="15,5,0,5"/>
                     </StackPanel>
-                    <ScrollViewer Height="100" VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto">
-                        <TextBlock 
+                    <ScrollViewer VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto">
+                        <TextBox 
                             x:Name="TranslatedTextBlock" FontWeight="SemiLight"
                             MaxWidth="{Binding ElementName=Spliter2, Path=ActualWidth}"
-                            Margin="10,10,10,20" TextWrapping="Wrap"/>
+                            TextWrapping="Wrap"/>
                     </ScrollViewer>
                 </StackPanel>
                 

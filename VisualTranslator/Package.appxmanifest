@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="51434kentkim84.VisionTranslator" Publisher="CN=14BA989E-AB4E-4E81-9544-1B36DA526141" Version="1.1.1.0" />
+  <Identity Name="51434kentkim84.VisionTranslator" Publisher="CN=14BA989E-AB4E-4E81-9544-1B36DA526141" Version="1.1.3.0" />
   <mp:PhoneIdentity PhoneProductId="5036fd00-769e-4578-a411-761d12ba9467" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>VisionTranslator</DisplayName>
